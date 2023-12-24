@@ -8,3 +8,17 @@
     color: #6dbaa8;
     text-decoration: underline;
 }
+
+::-webkit-scrollbar {
+    width: 8px;
+
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #4dac96;
+    border-radius: 30px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #ffffff;
+}
