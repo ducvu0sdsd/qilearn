@@ -9,7 +9,7 @@ export default function Home() {
         <div className=''>
           <span className='bg-[#f1675e] text-white rounded-[2rem] font-bold px-3 py-2'>50% OFF</span>
           <span className='text-[#f1675e] font-semibold mx-4'>LEARN FROM TODAY</span>
-          <h1 className='leading-[55px] my-6 font-poppins text-[3rem] font-bold'>The Best Way For Your Learning</h1>
+          <h1 className='leading-[70px] my-6 font-poppins text-[4rem] font-bold'>The Best Way For Your Learning</h1>
           <div className='max-w-[80%] pl-3 border-[#ff7d74] border-l-[2px] mb-5'>
             There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
           </div>
@@ -28,7 +28,7 @@ export default function Home() {
             <a className='font-semibold font-body text-[14px] decoration-slice'>Watch Demo</a>
           </div>
         </div>
-        <img className='h-[550px]' src='/couple.png' alt='Qiflix - Learn English' />
+        <img className='h-[650px]' src='/couple.png' alt='Qiflix - Learn English' />
       </section>
     </>
   )
