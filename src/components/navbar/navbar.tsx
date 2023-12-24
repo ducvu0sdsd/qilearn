@@ -5,11 +5,11 @@ const Navbar = () => {
         <header className='flex justify-between items-center h-20 px-[3rem]'>
             <img className='w-[12rem]' src="/logo.png" alt="Qilearn - Learn English With Qizhy" />
             <ul className='flex items-center'>
-                <li className='font-semibold mx-3.5 cursor-pointer font-body text-[14px] text-[#454545] navbar-active'>Home</li>
-                <li className='font-semibold mx-3.5 cursor-pointer font-body text-[14px] text-[#454545]'>About</li>
-                <li className='font-semibold mx-3.5 cursor-pointer font-body text-[14px] text-[#454545]'>Courses</li>
-                <li className='font-semibold mx-3.5 cursor-pointer font-body text-[14px] text-[#454545]'>Instructor</li>
-                <li className='font-semibold mx-3.5 cursor-pointer font-body text-[14px] text-[#454545]'>Contact</li>
+                <li className='font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545] navbar-active'>Home</li>
+                <li className='font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545]'>About</li>
+                <li className='font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545]'>Courses</li>
+                <li className='font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545]'>Instructor</li>
+                <li className='font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545]'>Contact</li>
             </ul>
             <div className='flex items-center'>
                 <svg className="mx-1.5 w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
