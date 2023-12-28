@@ -1,9 +1,13 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import LogoMini from './resources/logo-mini.png'
-
+import axios from "axios";
+import Provider from '@/components/provider';
+import Toast, { StatusToast } from '@/components/toast';
 const inter = Inter({ subsets: ['latin'] })
+axios.create({
+  baseURL: 'http://localhost:8080'
+})
 
 export const metadata: Metadata = {
   title: 'QiLearn',
@@ -20,9 +24,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link
+          href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+          rel="stylesheet"
+        />
+      </head>
       <body className={inter.className}>
         <div className='bg-white w-[100%] min-h-screen'>
-          {children}
+          <Provider>
+            {children}
+          </Provider>
         </div>
       </body>
     </html>
