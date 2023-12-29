@@ -5,6 +5,7 @@ export interface UserInterface {
     image: string
     email: string
     type: TypeUser
+    _id: string
 }
 
 export interface UserSignUp {

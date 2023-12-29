@@ -9,10 +9,6 @@ import { motion } from 'framer-motion'
 import { signOut, useSession } from 'next-auth/react'
 
 export default function Home() {
-  const { data: session, status, update } = useSession()
-  if (status === 'authenticated') {
-    signOut()
-  }
   return (
     <motion.div
       initial={{ x: 1920 * -1 }}

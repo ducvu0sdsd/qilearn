@@ -37,6 +37,15 @@ export const api = ({ path, body, type }: APIType) => {
                         resolve({ status: res.response.status, message: res.response.data.message })
                     })
                 break
+            case TypeHTTP.DELETE:
+                axios.delete(path, body)
+                    .then(res => {
+                        rejects(res.data)
+                    })
+                    .catch(res => {
+                        resolve({ status: res.response.status, message: res.response.data.message })
+                    })
+                break
         }
     })
 }

@@ -3,9 +3,10 @@ import { createContext, use, useEffect, useState } from "react";
 import React from 'react'
 import Toast, { StatusToast, ToastInterface } from "../toast";
 import { UserInterface } from "./interfaces";
-import { usePathname } from "next/navigation";
-import Cookies from 'js-cookie';
+import { usePathname, useRouter } from "next/navigation";
 import { TypeHTTP, api } from "@/utils/api/api";
+import { signOut, useSession } from "next-auth/react";
+import Cookies from 'js-cookie';
 
 
 export const ThemeContext = createContext<{ datas: ThemeData; handles: ThemeHandles } | undefined>(undefined);
@@ -25,6 +26,7 @@ export interface ThemeContextProviderProps {
 }
 
 const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
+    const router = useRouter()
     const [toast, setToast] = useState<ToastInterface>({ message: '', status: StatusToast.NONE })
     const [user, setUser] = useState<UserInterface | undefined>(undefined)
 
@@ -47,11 +49,32 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
 
     // Check Routes (Sign in / Sign out)
     const pathname = usePathname()
+    const { data: session, status, update } = useSession()
     useEffect(() => {
-        api({ path: '/auth/check-token', type: TypeHTTP.GET })
-            .then(res => {
-                console.log(res)
-            })
+        if (pathname !== '/' && pathname !== '/auth-page/sign-in' && pathname !== '/auth-page/sign-up') {
+            api({ path: '/auth/check-token', type: TypeHTTP.GET })
+                .then(res => {
+                    const result: any = res
+                    handles.setUser(result)
+                })
+                .catch(res => {
+                    api({ path: '/keys', type: TypeHTTP.DELETE })
+                        .then(res => {
+                            Cookies.remove('user_id')
+                            Cookies.remove('accessToken')
+                            Cookies.remove('privateKey')
+                            Cookies.remove('refreshToken')
+                            router.push('/')
+                        })
+                })
+        } else {
+            api({ path: '/auth/check-token', type: TypeHTTP.GET })
+                .then(res => {
+                    const result: any = res
+                    handles.setUser(result)
+                    router.push('/home-page')
+                })
+        }
     }, [pathname])
 
     return (

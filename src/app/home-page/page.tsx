@@ -7,6 +7,7 @@ import React, { useContext, useEffect } from 'react'
 
 const HomePage = () => {
     const { datas, handles } = useContext(ThemeContext) || {}
+    localStorage.removeItem('is-first')
     return (
         <div className='px-[4rem] py-[60px]'>
             <PrivateNavbar />

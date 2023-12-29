@@ -76,9 +76,9 @@ const Toast = ({ message, status }: ToastInterface) => {
 
     return (
         <div ref={toastRef} className='transition-all px-[12px] py-[14px] flex rounded-xl fixed right-[-500px] top-5 z-30 w-[20rem] min-h-[90px] bg-[white]'>
-            <div className={`min-h-[100%] w-[5px] rounded-[40px] bg-[${getColor(toast.status)}]`} />
+            <div style={{ backgroundColor: `${getColor(toast.status)}` }} className={`min-h-[100%] w-[5px] rounded-[40px]`} />
             <div className='ml-4 w-full flex flex-col justify-center gap-1'>
-                <div className={`font-bold text-[${getColor(toast.status)}] text-[18px] w-[100%]`}>
+                <div style={{ color: `${getColor(toast.status)}` }} className={`font-bold text-[18px] w-[100%]`}>
                     {getStatus(toast.status)}
                 </div>
                 <div className='font-semibold text-[#5c5c5c] text-[15px]'>

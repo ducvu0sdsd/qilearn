@@ -64,9 +64,11 @@ const AuthPage = () => {
                         handles?.handleSetNotification({ message: 'Account successfully created', status: StatusToast.SUCCESS })
                     })
                     .catch(res => {
+                        setCreating(false)
                         handles?.handleSetNotification({ message: res.message, status: StatusToast.FAIL })
                     })
                     .finally(() => {
+                        setCreating(false)
                         setTimeout(() => {
                             signOut()
                         }, 2900);

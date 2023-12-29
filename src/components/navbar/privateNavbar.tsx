@@ -1,11 +1,27 @@
-import Link from 'next/link'
+import Cookies from 'js-cookie';
 import React, { useContext } from 'react'
 import { ThemeContext } from '../context/themeContext'
+import { TypeHTTP, api } from '@/utils/api/api';
+import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 
 const PrivateNavbar = () => {
 
-    const { datas } = useContext(ThemeContext) || {}
-
+    const { datas, handles } = useContext(ThemeContext) || {}
+    const router = useRouter()
+    const handleSignOut = async () => {
+        api({ path: `/keys`, type: TypeHTTP.DELETE })
+            .then(res => {
+                if (res === true) {
+                    Cookies.remove('user_id')
+                    Cookies.remove('accessToken')
+                    Cookies.remove('privateKey')
+                    Cookies.remove('refreshToken')
+                    handles?.setUser(undefined)
+                    signOut()
+                }
+            })
+    }
     return (
         <header className='
             flex justify-between 
@@ -35,7 +51,9 @@ const PrivateNavbar = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                 </svg>
                 <img />
-                <Link href={'/auth-page/sign-in'}><button className='
+                <button
+                    onClick={() => handleSignOut()}
+                    className='
                     rounded-[20px] py-2.5 
                     px-5 font-semibold 
                     text-white mx-1.5 
@@ -44,7 +62,7 @@ const PrivateNavbar = () => {
                     md:text-[12px]
                     '>
                     Sign Out
-                </button></Link>
+                </button>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 block md:hidden">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>

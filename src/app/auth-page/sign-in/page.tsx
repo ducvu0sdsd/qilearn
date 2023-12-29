@@ -41,31 +41,38 @@ const AuthPage = () => {
     //     revalidateOnReconnect: false,
     // });
 
-    const { data: session } = useSession()
+    const { data: session, status } = useSession()
     const [isSignIn, setIsSignIn] = useState<boolean>(false)
     useEffect(() => {
-        if (session?.user) {
-            if (!isSignIn) {
-                const { name, email, image } = session.user
-                setIsSignIn(true)
-                api({ path: '/auth/sign-in', body: { username: email, password: '' }, type: TypeHTTP.POST })
-                    .then(res => {
-                        const result: any = res
-                        if (result.status === 200) {
-                            handles?.handleSetNotification({ message: 'Logged in successfully', status: StatusToast.SUCCESS })
-                            setIsSignIn(false)
-                            handles?.setUser(result.metadata.data)
-                            setTimeout(() => {
-                                router.push('/home-page')
-                            }, 1500);
-                        }
-                    })
-                    .catch(res => {
-                        handles?.handleSetNotification({ message: "Google account does not exist in the system", status: StatusToast.FAIL })
-                        setIsSignIn(false)
-                    })
+        const isFirst: string | null = localStorage.getItem('is-first')
+        if (!isFirst) {
+            if (status === 'authenticated') {
+                signOut()
             }
-
+        } else {
+            if (session?.user) {
+                if (!isSignIn) {
+                    console.log(1111)
+                    const { name, email, image } = session.user
+                    setIsSignIn(true)
+                    api({ path: '/auth/sign-in', body: { username: email, password: '' }, type: TypeHTTP.POST })
+                        .then(res => {
+                            const result: any = res
+                            if (result.status === 200) {
+                                handles?.handleSetNotification({ message: 'Logged in successfully', status: StatusToast.SUCCESS })
+                                setIsSignIn(false)
+                                handles?.setUser(result.metadata.data)
+                                setTimeout(() => {
+                                    router.push('/home-page')
+                                }, 1500);
+                            }
+                        })
+                        .catch(res => {
+                            handles?.handleSetNotification({ message: "Google account does not exist in the system", status: StatusToast.FAIL })
+                            setIsSignIn(false)
+                        })
+                }
+            }
         }
     }, [session])
 
@@ -95,12 +102,18 @@ const AuthPage = () => {
                 </div>
 
                 <button
-                    onClick={() => signIn('google')}
+                    onClick={() => {
+                        localStorage.setItem('is-first', 'vutienduc')
+                        signIn('google')
+                    }}
                     className='hover:scale-[1.02] transition text-[15px] my-[5px] justify-center py-[10px] rounded-[10px] from-[#ffffffac] to-[#ffffff45] bg-gradient-to-br flex items-center text-black font-semibold'>
                     <i className='bx bxl-google text-[2rem] mr-2'></i>
                     Continue With Google</button>
                 <button
-                    onClick={() => signIn('github')}
+                    onClick={() => {
+                        localStorage.setItem('is-first', 'vutienduc')
+                        signIn('github')
+                    }}
                     className='hover:scale-[1.02] transition text-[15px] my-[5px] justify-center py-[10px] rounded-[10px] from-[#ffffffac] to-[#ffffff45] bg-gradient-to-br flex items-center text-black font-semibold'>
                     <i className='bx bxl-github text-[2rem] mr-2'></i>
                     Continue With GitHub</button>
