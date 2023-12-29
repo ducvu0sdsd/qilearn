@@ -1,4 +1,5 @@
 'use client'
+import { TypeUser, UserSignUp } from '@/components/context/interfaces'
 import { ThemeContext } from '@/components/context/themeContext'
 import Provider from '@/components/provider'
 import { StatusToast } from '@/components/toast'
@@ -8,20 +9,6 @@ import { motion } from 'framer-motion'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React, { useContext, useEffect, useState } from 'react'
-
-export interface UserSignUp {
-    username: string
-    fullname: string
-    image: string
-    email: string
-    password: string
-    confirmpassword: string
-}
-export enum TypeUser {
-    NORMAL = 'normal',
-    GOOGLE = 'google',
-    GITHUB = 'github'
-}
 
 const AuthPage = () => {
     const defaultAvatar = 'https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg'
