@@ -26,7 +26,6 @@ const AuthPage = () => {
             .then(res => {
                 handles?.handleSetNotification({ message: 'Logged in successfully', status: StatusToast.SUCCESS })
                 setTimeout(() => {
-                    const router = useRouter()
                     router.push('/home-page')
                 }, 1500);
             })
