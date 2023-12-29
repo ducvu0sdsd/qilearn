@@ -2,12 +2,13 @@
 import { ThemeContext } from '@/components/context/themeContext'
 import NodeList from '@/components/homePage/nodeList'
 import PrivateNavbar from '@/components/navbar/privateNavbar'
-import { animate, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
+import Cookies from 'js-cookie';
 import React, { useContext, useEffect } from 'react'
 
 const HomePage = () => {
     const { datas, handles } = useContext(ThemeContext) || {}
-    localStorage.removeItem('is-first')
+    Cookies.remove('is-first')
     return (
         <div className='px-[4rem] py-[60px]'>
             <PrivateNavbar />
