@@ -4,6 +4,7 @@ import Provider from '@/components/provider'
 import { StatusToast } from '@/components/toast'
 import { TypeHTTP, api } from '@/utils/api/api'
 import axios from 'axios'
+import { motion } from 'framer-motion'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React, { useContext, useEffect, useState } from 'react'
@@ -56,6 +57,11 @@ const AuthPage = () => {
             .catch(res => {
                 handles?.handleSetNotification({ message: res.message, status: StatusToast.FAIL })
             })
+            .finally(() => {
+                setTimeout(() => {
+                    signOut()
+                }, 2900);
+            })
     }
 
     const { data: session, status, update } = useSession()
@@ -73,13 +79,22 @@ const AuthPage = () => {
                     .catch(res => {
                         handles?.handleSetNotification({ message: res.message, status: StatusToast.FAIL })
                     })
+                    .finally(() => {
+                        setTimeout(() => {
+                            signOut()
+                        }, 2900);
+                    })
             }
         }
     }, [status, session])
 
 
     return (
-        <section className='w-full h-screen flex items-center justify-center' style={{ backgroundImage: `url(/auth.png)` }}>
+        <motion.section
+            initial={{ x: window.innerWidth * -1 }}
+            animate={{ x: 0 }}
+            exit={{ x: window.innerWidth * -1, transition: { duration: 0.2 } }}
+            className='w-full min-h-screen py-[3rem] flex items-center justify-center' style={{ backgroundImage: `url(/auth.png)` }}>
             <div className='shadow-2xl flex flex-col py-[1.0rem] px-[2rem] from-[#ffffffac] to-[#ffffff45] bg-gradient-to-br rounded-[1rem] '>
                 <h1 className=' my-[4px] mb-[1rem] font-bold text-[28px] font-poppins' >Sign Up</h1>
                 <input onChange={(e: any) => setUserSignUp({ ...userSignUp, username: e.target.value })} className='focus:scale-[1.03] transition pt-[2px] text-[15px] focus:outline-0 rounded-[0.5rem] px-[1rem] text-black my-[5px] h-[50px] w-[25rem] from-[#ffffffac] to-[#ffffff45] bg-gradient-to-br bg-transparent' placeholder='Username' />
@@ -115,7 +130,7 @@ const AuthPage = () => {
                 <p className='w-full text-center mt-[0.5rem]'>
                     Have an account? <Link href={'sign-in'}><span className='font-bold underline cursor-pointer'>Sign In</span></Link></p>
             </div>
-        </section >
+        </motion.section >
 
     )
 }

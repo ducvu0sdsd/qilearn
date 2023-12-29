@@ -12,6 +12,7 @@
     "axios": "^1.6.3",
     "boxicons": "^2.1.4",
     "cookie": "^0.6.0",
+    "framer-motion": "^10.16.16",
     "next": "14.0.4",
     "next-auth": "^4.24.5",
     "react": "^18",

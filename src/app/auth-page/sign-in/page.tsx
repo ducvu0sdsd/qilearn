@@ -1,12 +1,12 @@
 'use client'
 import { TypeHTTP, api } from '@/utils/api/api'
-import { signIn, useSession } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React, { useContext, useEffect, useState } from 'react'
-import useSWR from 'swr'
-import { TypeUser } from '../sign-up/page'
 import { ThemeContext } from '@/components/context/themeContext'
 import { StatusToast } from '@/components/toast'
+import { useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
 export interface UserSignIn {
     username: string
     password: string
@@ -18,12 +18,17 @@ const AuthPage = () => {
         username: '',
         password: ''
     })
+    const router = useRouter()
 
     const handleSignIn = () => {
         const { username, password } = userSignIn
         api({ path: '/auth/sign-in', body: { username, password }, type: TypeHTTP.POST })
             .then(res => {
                 handles?.handleSetNotification({ message: 'Logged in successfully', status: StatusToast.SUCCESS })
+                setTimeout(() => {
+                    const router = useRouter()
+                    router.push('/home-page')
+                }, 1500);
             })
             .catch(res => {
                 handles?.handleSetNotification({ message: `UserName Or Password don't exists in the system`, status: StatusToast.FAIL })
@@ -46,11 +51,19 @@ const AuthPage = () => {
                 setIsSignIn(true)
                 api({ path: '/auth/sign-in', body: { username: email, password: '' }, type: TypeHTTP.POST })
                     .then(res => {
-                        handles?.handleSetNotification({ message: 'Logged in successfully', status: StatusToast.SUCCESS })
-                        setIsSignIn(false)
+                        const result: any = res
+                        if (result.status === 200) {
+                            handles?.handleSetNotification({ message: 'Logged in successfully', status: StatusToast.SUCCESS })
+                            setIsSignIn(false)
+                            handles?.setUser(result.metadata.data)
+                            setTimeout(() => {
+                                router.push('/home-page')
+                            }, 1500);
+                        }
                     })
                     .catch(res => {
                         handles?.handleSetNotification({ message: "Google account does not exist in the system", status: StatusToast.FAIL })
+                        setIsSignIn(false)
                     })
             }
 
@@ -58,7 +71,11 @@ const AuthPage = () => {
     }, [session])
 
     return (
-        <section className='w-full h-screen flex items-center justify-center' style={{ backgroundImage: `url(/auth.png)` }}>
+        <motion.section
+            initial={{ x: window.innerWidth * -1 }}
+            animate={{ x: 0 }}
+            exit={{ x: window.innerWidth * -1, transition: { duration: 0.2 } }}
+            className='w-full min-h-screen py-[3rem] flex items-center justify-center' style={{ backgroundImage: `url(/auth.png)` }}>
             <div className='shadow-2xl flex flex-col p-[2rem] from-[#ffffffac] to-[#ffffff45] bg-gradient-to-br rounded-[1rem] '>
                 <h1 className=' my-[0.5rem] mb-[1rem] font-bold text-[28px] font-poppins' >Sign In</h1>
                 <input onChange={(e: any) => setUserSignIn({ ...userSignIn, username: e.target.value })} className='focus:scale-[1.03] transition pt-1 text-[15px] focus:outline-0 rounded-[0.5rem] px-[1rem] text-black my-[5px] h-[50px] w-[25rem] from-[#ffffffac] to-[#ffffff45] bg-gradient-to-br bg-transparent' placeholder='Username or email' />
@@ -91,7 +108,7 @@ const AuthPage = () => {
                 <p className='w-full text-center mt-[2.0rem]'>
                     Don't have an account? <Link href={'sign-up'}><span className='font-bold underline cursor-pointer'>Sign Up</span></Link></p>
             </div>
-        </section>
+        </motion.section>
     )
 }
 

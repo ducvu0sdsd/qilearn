@@ -5,8 +5,8 @@ import FourthSection from '@/components/publicPage/FourthSection'
 import HeadSection from '@/components/publicPage/HeadSection'
 import SecondSection from '@/components/publicPage/SecondSection'
 import ThirdSection from '@/components/publicPage/ThirdSection'
+import { motion } from 'framer-motion'
 import { signOut, useSession } from 'next-auth/react'
-import Image from 'next/image'
 
 export default function Home() {
   const { data: session, status, update } = useSession()
@@ -14,13 +14,16 @@ export default function Home() {
     signOut()
   }
   return (
-    <>
+    <motion.div
+      initial={{ x: window.innerWidth * -1 }}
+      animate={{ x: 0 }}
+      exit={{ x: window.innerWidth * -1, transition: { duration: 0.2 } }}>
       <Navbar />
       <HeadSection />
       <SecondSection />
       <ThirdSection />
       <FourthSection />
       <Footer />
-    </>
+    </motion.div>
   )
 }
