@@ -44,11 +44,6 @@ const AuthPage = () => {
             .catch(res => {
                 handles?.handleSetNotification({ message: res.message, status: StatusToast.FAIL })
             })
-            .finally(() => {
-                setTimeout(() => {
-                    signOut()
-                }, 2900);
-            })
     }
 
     const { data: session, status, update } = useSession()

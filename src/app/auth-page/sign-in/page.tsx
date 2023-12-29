@@ -7,6 +7,7 @@ import { ThemeContext } from '@/components/context/themeContext'
 import { StatusToast } from '@/components/toast'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
+import Cookies from 'js-cookie';
 export interface UserSignIn {
     username: string
     password: string
@@ -44,7 +45,7 @@ const AuthPage = () => {
     const { data: session, status } = useSession()
     const [isSignIn, setIsSignIn] = useState<boolean>(false)
     useEffect(() => {
-        const isFirst: string | null = localStorage.getItem('is-first')
+        const isFirst: string | undefined = Cookies.get('is-first')
         if (!isFirst) {
             if (status === 'authenticated') {
                 signOut()
@@ -52,7 +53,6 @@ const AuthPage = () => {
         } else {
             if (session?.user) {
                 if (!isSignIn) {
-                    console.log(1111)
                     const { name, email, image } = session.user
                     setIsSignIn(true)
                     api({ path: '/auth/sign-in', body: { username: email, password: '' }, type: TypeHTTP.POST })
@@ -103,7 +103,7 @@ const AuthPage = () => {
 
                 <button
                     onClick={() => {
-                        localStorage.setItem('is-first', 'vutienduc')
+                        Cookies.set('is-first', 'vutienduc')
                         signIn('google')
                     }}
                     className='hover:scale-[1.02] transition text-[15px] my-[5px] justify-center py-[10px] rounded-[10px] from-[#ffffffac] to-[#ffffff45] bg-gradient-to-br flex items-center text-black font-semibold'>
@@ -111,7 +111,7 @@ const AuthPage = () => {
                     Continue With Google</button>
                 <button
                     onClick={() => {
-                        localStorage.setItem('is-first', 'vutienduc')
+                        Cookies.set('is-first', 'vutienduc')
                         signIn('github')
                     }}
                     className='hover:scale-[1.02] transition text-[15px] my-[5px] justify-center py-[10px] rounded-[10px] from-[#ffffffac] to-[#ffffff45] bg-gradient-to-br flex items-center text-black font-semibold'>
