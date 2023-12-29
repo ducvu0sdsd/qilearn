@@ -78,9 +78,9 @@ const AuthPage = () => {
 
     return (
         <motion.section
-            initial={{ x: window.innerWidth * -1 }}
+            initial={{ x: 1920 * -1 }}
             animate={{ x: 0 }}
-            exit={{ x: window.innerWidth * -1, transition: { duration: 0.2 } }}
+            exit={{ x: 1920 * -1, transition: { duration: 0.2 } }}
             className='w-full min-h-screen py-[3rem] flex items-center justify-center' style={{ backgroundImage: `url(/auth.png)` }}>
             <div className='shadow-2xl flex flex-col py-[1.0rem] px-[2rem] from-[#ffffffac] to-[#ffffff45] bg-gradient-to-br rounded-[1rem] '>
                 <h1 className=' my-[4px] mb-[1rem] font-bold text-[28px] font-poppins' >Sign Up</h1>

@@ -15,9 +15,9 @@ export default function Home() {
   }
   return (
     <motion.div
-      initial={{ x: window.innerWidth * -1 }}
+      initial={{ x: 1920 * -1 }}
       animate={{ x: 0 }}
-      exit={{ x: window.innerWidth * -1, transition: { duration: 0.2 } }}>
+      exit={{ x: 1920 * -1, transition: { duration: 0.2 } }}>
       <Navbar />
       <HeadSection />
       <SecondSection />
