@@ -1,10 +1,12 @@
 'use client'
-import { createContext, useEffect, useState } from "react";
+import { createContext, use, useEffect, useState } from "react";
 import React from 'react'
 import Toast, { StatusToast, ToastInterface } from "../toast";
 import { UserInterface } from "./interfaces";
 import { usePathname } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
+import Cookies from 'js-cookie';
+import { TypeHTTP, api } from "@/utils/api/api";
+
 
 export const ThemeContext = createContext<{ datas: ThemeData; handles: ThemeHandles } | undefined>(undefined);
 
@@ -43,8 +45,14 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
         setUser
     };
 
+    // Check Routes (Sign in / Sign out)
     const pathname = usePathname()
-    const { data: session, status } = useSession()
+    useEffect(() => {
+        api({ path: '/auth/check-token', type: TypeHTTP.GET })
+            .then(res => {
+                console.log(res)
+            })
+    }, [pathname])
 
     return (
         <ThemeContext.Provider value={{ datas, handles }}>
