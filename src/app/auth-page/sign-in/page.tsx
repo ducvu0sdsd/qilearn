@@ -105,7 +105,7 @@ const AuthPage = () => {
                     <i className='bx bxl-github text-[2rem] mr-2'></i>
                     Continue With GitHub</button>
                 <p className='w-full text-center mt-[2.0rem]'>
-                    Don't have an account? <Link href={'sign-up'}><span className='font-bold underline cursor-pointer'>Sign Up</span></Link></p>
+                    Don&#39;t have an account? <Link href={'sign-up'}><span className='font-bold underline cursor-pointer'>Sign Up</span></Link></p>
             </div>
         </motion.section>
     )
