@@ -2,7 +2,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import GithubProvider from 'next-auth/providers/github'
 import NextAuth, { AuthOptions } from 'next-auth'
 
-export const authOptions: AuthOptions = {
+const authOptions: AuthOptions = {
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID || '',
