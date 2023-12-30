@@ -51,12 +51,8 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
     const pathname = usePathname()
     const { data: session, status, update } = useSession()
     useEffect(() => {
-        const user_id = Cookies.get('user_id')
-        const accessToken = Cookies.get('accessToken')
-        const privateKey = Cookies.get('privateKey')
-        const refreshToken = Cookies.get('refreshToken')
         if (pathname !== '/' && pathname !== '/auth-page/sign-in' && pathname !== '/auth-page/sign-up') {
-            api({ path: `/auth/check-token?user_id=${user_id}&accessToken=${accessToken}&privateKey=${privateKey}&refreshToken=${refreshToken}`, type: TypeHTTP.GET })
+            api({ path: '/auth/check-token', type: TypeHTTP.POST })
                 .then(res => {
                     const result: any = res
                     handles.setUser(result)
@@ -72,7 +68,7 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
                         })
                 })
         } else {
-            api({ path: `/auth/check-token?user_id=${user_id}&accessToken=${accessToken}&privateKey=${privateKey}&refreshToken=${refreshToken}`, type: TypeHTTP.GET })
+            api({ path: '/auth/check-token', type: TypeHTTP.POST })
                 .then(res => {
                     const result: any = res
                     handles.setUser(result)
