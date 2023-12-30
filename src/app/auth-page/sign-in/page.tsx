@@ -61,7 +61,11 @@ const AuthPage = () => {
                             if (result.status === 200) {
                                 handles?.handleSetNotification({ message: 'Logged in successfully', status: StatusToast.SUCCESS })
                                 setIsSignIn(false)
-                                handles?.setUser(result.metadata.data)
+                                handles?.setUser(result.metadata.data.user)
+                                Cookies.set('privateKey', result.metadata.data.privateKey)
+                                Cookies.set('accessToken', result.metadata.data.accessToken)
+                                Cookies.set('refreshToken', result.metadata.data.refreshToken)
+                                Cookies.set('user_id', result.metadata.data.user._id)
                                 setTimeout(() => {
                                     router.push('/home-page')
                                 }, 1500);
