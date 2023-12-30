@@ -1,5 +1,4 @@
 import axios from "axios";
-import useSWR from 'swr'
 axios.defaults.baseURL = 'https://qilearn-be.vercel.app'
 axios.defaults.withCredentials = true
 
