@@ -55,7 +55,11 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
             api({ path: '/auth/check-token', type: TypeHTTP.POST })
                 .then(res => {
                     const result: any = res
-                    handles.setUser(result)
+                    handles.setUser(result.user)
+                    Cookies.set('privateKey', result.auth.privateKey)
+                    Cookies.set('accessToken', result.auth.accessToken)
+                    Cookies.set('refreshToken', result.auth.refreshToken)
+                    Cookies.set('user_id', result.auth.user._id)
                 })
                 .catch(res => {
                     api({ path: '/keys', type: TypeHTTP.DELETE })
@@ -72,6 +76,10 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
                 .then(res => {
                     const result: any = res
                     handles.setUser(result)
+                    Cookies.set('privateKey', result.auth.privateKey)
+                    Cookies.set('accessToken', result.auth.accessToken)
+                    Cookies.set('refreshToken', result.auth.refreshToken)
+                    Cookies.set('user_id', result.auth.user._id)
                     router.push('/home-page')
                 })
         }
