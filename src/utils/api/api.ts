@@ -1,5 +1,5 @@
 import axios from "axios";
-axios.defaults.baseURL = 'https://qilearn-be.vercel.app'
+axios.defaults.baseURL = 'http://localhost:8080'
 axios.defaults.withCredentials = true
 
 export enum TypeHTTP {
