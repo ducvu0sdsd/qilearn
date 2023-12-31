@@ -62,12 +62,12 @@ const AuthPage = () => {
                         setCreating(false)
                         handles?.handleSetNotification({ message: res.message, status: StatusToast.FAIL })
                     })
-                    .finally(() => {
-                        setCreating(false)
-                        setTimeout(() => {
-                            signOut()
-                        }, 2900);
-                    })
+                // `.finally(() => {
+                //     setCreating(false)
+                //     setTimeout(() => {
+                //         signOut()
+                //     }, 2900);
+                // })`
             }
         }
     }, [status, session])

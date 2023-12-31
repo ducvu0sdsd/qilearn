@@ -52,35 +52,34 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
     const { data: session, status, update } = useSession()
     useEffect(() => {
         if (pathname !== '/' && pathname !== '/auth-page/sign-in' && pathname !== '/auth-page/sign-up') {
-            api({ path: '/auth/check-token', type: TypeHTTP.POST })
+
+            api({ path: '/auth/check-token', type: TypeHTTP.GET })
                 .then(res => {
                     const result: any = res
-                    handles.setUser(result.user)
-                    Cookies.set('privateKey', result.auth.privateKey)
-                    Cookies.set('accessToken', result.auth.accessToken)
-                    Cookies.set('refreshToken', result.auth.refreshToken)
-                    Cookies.set('user_id', result.auth.user._id)
+                    try {
+                        Cookies.set('accessToken', result.auth.accessToken)
+                        Cookies.set('refreshToken', result.auth.refreshToken)
+                        handles.setUser(result.user)
+                    } catch (error) {
+                        console.log(error)
+                    }
                 })
                 .catch(res => {
-                    api({ path: '/keys', type: TypeHTTP.DELETE })
-                        .then(res => {
-                            Cookies.remove('user_id')
-                            Cookies.remove('accessToken')
-                            Cookies.remove('privateKey')
-                            Cookies.remove('refreshToken')
-                            router.push('/')
-                        })
+                    console.log(res)
+                    router.push('/')
                 })
         } else {
-            api({ path: '/auth/check-token', type: TypeHTTP.POST })
+            api({ path: '/auth/check-token', type: TypeHTTP.GET })
                 .then(res => {
                     const result: any = res
-                    handles.setUser(result)
-                    Cookies.set('privateKey', result.auth.privateKey)
-                    Cookies.set('accessToken', result.auth.accessToken)
-                    Cookies.set('refreshToken', result.auth.refreshToken)
-                    Cookies.set('user_id', result.auth.user._id)
-                    router.push('/home-page')
+                    try {
+                        Cookies.set('accessToken', result.auth.accessToken)
+                        Cookies.set('refreshToken', result.auth.refreshToken)
+                        handles.setUser(result.user)
+                        router.push('/home-page')
+                    } catch (error) {
+                        console.log(error)
+                    }
                 })
         }
     }, [pathname])

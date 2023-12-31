@@ -62,10 +62,13 @@ const AuthPage = () => {
                                 handles?.handleSetNotification({ message: 'Logged in successfully', status: StatusToast.SUCCESS })
                                 setIsSignIn(false)
                                 handles?.setUser(result.metadata.data.user)
-                                Cookies.set('privateKey', result.metadata.data.privateKey)
-                                Cookies.set('accessToken', result.metadata.data.accessToken)
-                                Cookies.set('refreshToken', result.metadata.data.refreshToken)
-                                Cookies.set('user_id', result.metadata.data.user._id)
+                                console.log(result.metadata.data.privateKey)
+                                try {
+                                    Cookies.set('accessToken', result.metadata.data.accessToken)
+                                    Cookies.set('refreshToken', result.metadata.data.refreshToken)
+                                } catch (error) {
+                                    console.log(error)
+                                }
                                 setTimeout(() => {
                                     router.push('/home-page')
                                 }, 1500);

@@ -19,35 +19,34 @@ export interface APIType {
 export const api = ({ path, body, type }: APIType) => {
     const user_id = Cookies.get('user_id')
     const accessToken = Cookies.get('accessToken')
-    const privateKey = Cookies.get('privateKey')
     const refreshToken = Cookies.get('refreshToken')
     return new Promise((rejects, resolve) => {
         switch (type) {
             case TypeHTTP.GET:
-                axios.get(path, { headers: { user_id, accessToken, privateKey, refreshToken } })
+                axios.get(path, { headers: { accessToken, refreshToken } })
                     .then(res => {
-                        rejects(res.data)
+                        rejects(res.data as any)
                     })
                     .catch(res => {
-                        resolve({ status: res.response.status, message: res.response.data.message })
+                        resolve({ status: res.response?.status, message: res.response?.data.message })
                     })
                 break
             case TypeHTTP.POST:
-                axios.post(path, body, { headers: { user_id, accessToken, privateKey, refreshToken } })
+                axios.post(path, body, { headers: { accessToken, refreshToken } })
                     .then(res => {
-                        rejects(res.data)
+                        rejects(res.data as any)
                     })
                     .catch(res => {
-                        resolve({ status: res.response.status, message: res.response.data.message })
+                        resolve({ status: res.response?.status, message: res.response?.data.message })
                     })
                 break
             case TypeHTTP.DELETE:
-                axios.delete(path, { headers: { user_id, accessToken, privateKey, refreshToken } })
+                axios.delete(path, { headers: { accessToken, refreshToken } })
                     .then(res => {
-                        rejects(res.data)
+                        rejects(res.data as any)
                     })
                     .catch(res => {
-                        resolve({ status: res.response.status, message: res.response.data.message })
+                        resolve({ status: res.response?.status, message: res.response?.data.message })
                     })
                 break
         }
