@@ -25,7 +25,15 @@ const AuthPage = () => {
         const { username, password } = userSignIn
         api({ path: '/auth/sign-in', body: { username, password }, type: TypeHTTP.POST })
             .then(res => {
+                const result: any = res
                 handles?.handleSetNotification({ message: 'Logged in successfully', status: StatusToast.SUCCESS })
+                handles?.setUser(result.metadata.data.user)
+                try {
+                    Cookies.set('accessToken', result.metadata.data.accessToken)
+                    Cookies.set('refreshToken', result.metadata.data.refreshToken)
+                } catch (error) {
+                    console.log(error)
+                }
                 setTimeout(() => {
                     router.push('/home-page')
                 }, 1500);
@@ -62,7 +70,6 @@ const AuthPage = () => {
                                 handles?.handleSetNotification({ message: 'Logged in successfully', status: StatusToast.SUCCESS })
                                 setIsSignIn(false)
                                 handles?.setUser(result.metadata.data.user)
-                                console.log(result.metadata.data.privateKey)
                                 try {
                                     Cookies.set('accessToken', result.metadata.data.accessToken)
                                     Cookies.set('refreshToken', result.metadata.data.refreshToken)
