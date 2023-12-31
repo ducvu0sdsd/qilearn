@@ -65,7 +65,9 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
                     }
                 })
                 .catch(res => {
-                    console.log(res)
+                    Cookies.remove('accessToken')
+                    Cookies.remove('refreshToken')
+                    handles?.setUser(undefined)
                     router.push('/')
                 })
         } else {

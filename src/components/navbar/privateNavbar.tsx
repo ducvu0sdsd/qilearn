@@ -9,18 +9,11 @@ const PrivateNavbar = () => {
 
     const { datas, handles } = useContext(ThemeContext) || {}
     const router = useRouter()
-    const handleSignOut = async () => {
-        api({ path: `/keys`, type: TypeHTTP.DELETE })
-            .then(res => {
-                if (res === true) {
-                    Cookies.remove('user_id')
-                    Cookies.remove('accessToken')
-                    Cookies.remove('privateKey')
-                    Cookies.remove('refreshToken')
-                    handles?.setUser(undefined)
-                    signOut()
-                }
-            })
+    const handleSignOut = () => {
+        Cookies.remove('accessToken')
+        Cookies.remove('refreshToken')
+        handles?.setUser(undefined)
+        signOut()
     }
     return (
         <header className='
