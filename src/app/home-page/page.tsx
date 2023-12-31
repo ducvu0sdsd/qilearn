@@ -16,8 +16,8 @@ const HomePage = () => {
                 <motion.h2
                     initial={{ y: '-50px', opacity: 0 }}
                     animate={{ y: 0, opacity: 1, transition: { duration: 0.7 } }}
-                    className='font-bold text-[29px] md:text-[1.5rem] font-poppins my-3 text-[#2c2c2c]'>Learn English</motion.h2>
-                <div className='px-[0.5rem] grid-cols-1 md:grid-cols-4 md:px-[2rem] grid gap-x-5 gap-y-3 w-full'>
+                    className='font-bold text-[27px] md:text-[1.5rem] font-poppins my-3 text-[#2c2c2c]'>Learn English</motion.h2>
+                <div className='px-[12px] grid-cols-1 md:grid-cols-4 md:px-[2rem] grid gap-x-5 gap-y-3 w-full'>
                     <NodeList url='/practice-vocabulary.png' />
                     <NodeList url='/practice-listen.png' />
                     <NodeList url='/practice-grammar.png' />
@@ -29,8 +29,8 @@ const HomePage = () => {
                 <motion.h2
                     initial={{ y: '-50px', opacity: 0 }}
                     animate={{ y: 0, opacity: 1, transition: { duration: 0.7 } }}
-                    className='font-bold text-[29px] md:text-[1.5rem] font-poppins my-3 text-[#2c2c2c]'>Other</motion.h2>
-                <div className='px-[0.5rem] grid-cols-1 md:grid-cols-4 md:px-[2rem] grid gap-x-5 gap-y-3 w-full'>
+                    className='font-bold text-[27px] md:text-[1.5rem] font-poppins my-3 text-[#2c2c2c]'>Other</motion.h2>
+                <div className='px-[12px] grid-cols-1 md:grid-cols-4 md:px-[2rem] grid gap-x-5 gap-y-3 w-full'>
                     <NodeList url='/note-management.png' />
                     <NodeList url='/study-time-management.png' />
                     <NodeList url='/to-do-list.png' />
