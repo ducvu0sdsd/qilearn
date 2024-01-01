@@ -1,5 +1,6 @@
 'use client'
 import { ThemeContext } from '@/components/context/themeContext'
+import Analysis from '@/components/homePage/analysis'
 import NodeList from '@/components/homePage/nodeList'
 import PrivateNavbar from '@/components/navbar/privateNavbar'
 import { motion } from 'framer-motion'
@@ -36,6 +37,7 @@ const HomePage = () => {
                     <NodeList url='/to-do-list.png' />
                 </div>
             </section>
+            <Analysis />
         </div>
     )
 }

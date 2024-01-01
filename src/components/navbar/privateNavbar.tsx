@@ -13,7 +13,6 @@ const PrivateNavbar = () => {
         Cookies.remove('accessToken')
         Cookies.remove('refreshToken')
         handles?.setUser(undefined)
-        signOut()
     }
     return (
         <header className='
