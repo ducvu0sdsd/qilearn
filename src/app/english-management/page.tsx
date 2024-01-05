@@ -18,7 +18,8 @@ const EnglishManagement = () => {
         utterance.rate = 1;
         utterance.pitch = 1;
         utterance.volume = 1;
-        voices = window.speechSynthesis.getVoices();
+        if (typeof window != 'undefined')
+            voices = window.speechSynthesis.getVoices();
 
         // Microsoft David - English(United States)
         // Microsoft Mark - English(United States)
@@ -31,7 +32,8 @@ const EnglishManagement = () => {
         if (selectedVoice) {
             utterance.voice = selectedVoice;
         }
-        window.speechSynthesis.speak(utterance);
+        if (typeof window != 'undefined')
+            window.speechSynthesis.speak(utterance);
     };
 
     return (
