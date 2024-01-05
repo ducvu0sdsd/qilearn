@@ -13,26 +13,29 @@ const EnglishManagement = () => {
 
     useEffect(() => {
         const speakHandler = () => {
-            const utterance = new SpeechSynthesisUtterance('how are you today');
-            utterance.rate = 1;
-            utterance.pitch = 1;
-            utterance.volume = 1;
-            voices = window.speechSynthesis.getVoices();
+            if (typeof window !== 'undefined' && window.speechSynthesis) {
+                const utterance = new SpeechSynthesisUtterance('how are you today');
+                utterance.rate = 1;
+                utterance.pitch = 1;
+                utterance.volume = 1;
 
-            // Microsoft David - English(United States)
-            // Microsoft Mark - English(United States)
-            // Microsoft Zira - English(United States)
-            // Google US English
-            // Google UK English Female
-            // Google UK English Male
+                let voices = window.speechSynthesis.getVoices();
 
-            const selectedVoice = voices.find(voice => voice.name === 'Microsoft Mark');
-            if (selectedVoice) {
-                utterance.voice = selectedVoice;
+                // Microsoft David - English(United States)
+                // Microsoft Mark - English(United States)
+                // Microsoft Zira - English(United States)
+                // Google US English
+                // Google UK English Female
+                // Google UK English Male
+
+                const selectedVoice = voices.find(voice => voice.name === 'Microsoft Mark');
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+                window.speechSynthesis.speak(utterance);
             }
-            window.speechSynthesis.speak(utterance);
         };
-    }, [])
+    }, []);
 
 
     return (
