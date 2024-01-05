@@ -31,3 +31,9 @@ export interface WordInterface {
 export interface InputTextInterface {
     setCurrentWord: React.Dispatch<React.SetStateAction<WordInterface | undefined>>
 }
+
+export interface PronouncesInterface {
+    name: string,
+    voiceName: string,
+    image: string
+}

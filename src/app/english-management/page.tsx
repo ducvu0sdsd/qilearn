@@ -8,41 +8,11 @@ import { useEffect, useState } from 'react';
 
 const EnglishManagement = () => {
 
-    const [currentWord, setCurrentWord] = useState<WordInterface>()
-
-    useEffect(() => {
-        let voices = globalThis.window.speechSynthesis.getVoices();
-        const speakHandler = () => {
-            if (typeof globalThis.window !== 'undefined' && globalThis.window.speechSynthesis) {
-                const utterance = new SpeechSynthesisUtterance('how are you today');
-                utterance.rate = 1;
-                utterance.pitch = 1;
-                utterance.volume = 1;
-
-                let voices = globalThis.window.speechSynthesis.getVoices();
-
-                // Microsoft David - English(United States)
-                // Microsoft Mark - English(United States)
-                // Microsoft Zira - English(United States)
-                // Google US English
-                // Google UK English Female
-                // Google UK English Male
-
-                const selectedVoice = voices.find(voice => voice.name === 'Microsoft Mark');
-                if (selectedVoice) {
-                    utterance.voice = selectedVoice;
-                }
-                globalThis.window.speechSynthesis.speak(utterance);
-            }
-        };
-    }, []);
-
-
     return (
         <>
             <PrivateNavbar />
             <section className='flex py-[5rem] min-h-screen gap-6 px-[1rem]'>
-                <FormSearchVocabulary setCurrentWord={setCurrentWord} />
+                <FormSearchVocabulary />
                 <div className='h-screen w-[60%] overflow-y-auto relative'>
                     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead className="sticky top-0 left-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

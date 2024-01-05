@@ -4,6 +4,8 @@ import './globals.css'
 import axios from "axios";
 import Provider from '@/components/provider';
 import Toast, { StatusToast } from '@/components/toast';
+import { useContext } from 'react';
+import { ThemeContext } from '@/components/context/themeContext';
 const inter = Inter({ subsets: ['latin'] })
 axios.create({
   baseURL: 'http://localhost:8080'
@@ -31,7 +33,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <div className='bg-white w-[100%] min-h-screen'>
+        <div className='bg-white w-[100%] min-h-screen z-10'>
           <Provider>
             {children}
           </Provider>

@@ -66,3 +66,22 @@ export const getVietNamese = (str: string) => {
     else
         return filter.trim()
 }
+
+export const changeTypesToVietnamese = (types: string[]) => {
+    return types.map(type => {
+        const typeLower = type.toLowerCase()
+        if (typeLower === 'n') {
+            return 'Danh Từ'
+        } else if (typeLower === 'v') {
+            return 'Động Từ'
+        } else if (typeLower === 'adj') {
+            return 'Tính Từ'
+        } else if (typeLower === 'adv') {
+            return 'Trạng Từ'
+        } else if (typeLower === 'prep') {
+            return 'Giới Từ'
+        } else if (typeLower === 'phrase') {
+            return 'Cụm Từ'
+        }
+    }).join(', ')
+}
