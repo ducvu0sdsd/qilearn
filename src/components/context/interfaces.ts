@@ -21,3 +21,13 @@ export enum TypeUser {
     GOOGLE = 'google',
     GITHUB = 'github'
 }
+
+export interface WordInterface {
+    english: string
+    vietnamese: string
+    types: string[]
+}
+
+export interface InputTextInterface {
+    setCurrentWord: React.Dispatch<React.SetStateAction<WordInterface | undefined>>
+}

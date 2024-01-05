@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { TypeHTTP, api } from "@/utils/api/api";
 import { signOut, useSession } from "next-auth/react";
 import Cookies from 'js-cookie';
+import { I18nextProvider } from 'react-i18next';
 
 
 export const ThemeContext = createContext<{ datas: ThemeData; handles: ThemeHandles } | undefined>(undefined);

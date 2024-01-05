@@ -13,6 +13,7 @@ const PrivateNavbar = () => {
         Cookies.remove('accessToken')
         Cookies.remove('refreshToken')
         handles?.setUser(undefined)
+        signOut()
     }
     return (
         <header className='
@@ -26,6 +27,7 @@ const PrivateNavbar = () => {
             bg-white
             w-screen
             border-b-[1px]
+            z-10
             '>
             <img className='w-[9rem] md:w-[10rem]' src="/logo.png" alt="Qilearn - Learn English With Qizhy" />
             <ul className='
