@@ -13,13 +13,13 @@ const EnglishManagement = () => {
 
     useEffect(() => {
         const speakHandler = () => {
-            if (typeof window !== 'undefined' && window.speechSynthesis) {
+            if (typeof globalThis.window !== 'undefined' && globalThis.window.speechSynthesis) {
                 const utterance = new SpeechSynthesisUtterance('how are you today');
                 utterance.rate = 1;
                 utterance.pitch = 1;
                 utterance.volume = 1;
 
-                let voices = window.speechSynthesis.getVoices();
+                let voices = globalThis.window.speechSynthesis.getVoices();
 
                 // Microsoft David - English(United States)
                 // Microsoft Mark - English(United States)
@@ -32,7 +32,7 @@ const EnglishManagement = () => {
                 if (selectedVoice) {
                     utterance.voice = selectedVoice;
                 }
-                window.speechSynthesis.speak(utterance);
+                globalThis.window.speechSynthesis.speak(utterance);
             }
         };
     }, []);
