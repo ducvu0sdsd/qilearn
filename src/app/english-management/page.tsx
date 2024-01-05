@@ -8,10 +8,10 @@ import { useEffect, useState } from 'react';
 
 const EnglishManagement = () => {
 
-    let voices = window.speechSynthesis.getVoices();
     const [currentWord, setCurrentWord] = useState<WordInterface>()
 
     useEffect(() => {
+        let voices = globalThis.window.speechSynthesis.getVoices();
         const speakHandler = () => {
             if (typeof globalThis.window !== 'undefined' && globalThis.window.speechSynthesis) {
                 const utterance = new SpeechSynthesisUtterance('how are you today');
