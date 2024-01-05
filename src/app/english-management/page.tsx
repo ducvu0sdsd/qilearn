@@ -11,30 +11,29 @@ const EnglishManagement = () => {
     let voices = window.speechSynthesis.getVoices();
     const [currentWord, setCurrentWord] = useState<WordInterface>()
 
-    useEffect(() => console.log(currentWord), [currentWord])
-
-    const speakHandler = () => {
-        const utterance = new SpeechSynthesisUtterance('how are you today');
-        utterance.rate = 1;
-        utterance.pitch = 1;
-        utterance.volume = 1;
-        if (typeof window != 'undefined')
+    useEffect(() => {
+        const speakHandler = () => {
+            const utterance = new SpeechSynthesisUtterance('how are you today');
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            utterance.volume = 1;
             voices = window.speechSynthesis.getVoices();
 
-        // Microsoft David - English(United States)
-        // Microsoft Mark - English(United States)
-        // Microsoft Zira - English(United States)
-        // Google US English
-        // Google UK English Female
-        // Google UK English Male
+            // Microsoft David - English(United States)
+            // Microsoft Mark - English(United States)
+            // Microsoft Zira - English(United States)
+            // Google US English
+            // Google UK English Female
+            // Google UK English Male
 
-        const selectedVoice = voices.find(voice => voice.name === 'Microsoft Mark');
-        if (selectedVoice) {
-            utterance.voice = selectedVoice;
-        }
-        if (typeof window != 'undefined')
+            const selectedVoice = voices.find(voice => voice.name === 'Microsoft Mark');
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
             window.speechSynthesis.speak(utterance);
-    };
+        };
+    }, [])
+
 
     return (
         <>
