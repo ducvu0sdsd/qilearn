@@ -13,22 +13,24 @@ const FormSearchVocabulary = () => {
     const englishInputRef = useRef<HTMLInputElement | null>(null)
     const vietnameseInputRef = useRef<HTMLInputElement | null>(null)
     const typesInputRef = useRef<HTMLInputElement | null>(null)
-
-    let voices = globalThis.window.speechSynthesis.getVoices();
-    const speakHandler = (voiceName: string, content: string) => {
-        if (typeof globalThis.window !== 'undefined' && globalThis.window.speechSynthesis) {
-            const utterance = new SpeechSynthesisUtterance(content);
-            utterance.rate = 1;
-            utterance.pitch = 1;
-            utterance.volume = 1;
-            voices = globalThis.window.speechSynthesis.getVoices();
-            const selectedVoice = voices.find(voice => voice.name === voiceName);
-            if (selectedVoice) {
-                utterance.voice = selectedVoice;
+    let speakHandler = (voiceName: string, content: string) => { }
+    useEffect(() => {
+        let voices = globalThis.window.speechSynthesis.getVoices();
+        speakHandler = (voiceName: string, content: string) => {
+            if (typeof globalThis.window !== 'undefined' && globalThis.window.speechSynthesis) {
+                const utterance = new SpeechSynthesisUtterance(content);
+                utterance.rate = 1;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                voices = globalThis.window.speechSynthesis.getVoices();
+                const selectedVoice = voices.find(voice => voice.name === voiceName);
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+                globalThis.window.speechSynthesis.speak(utterance);
             }
-            globalThis.window.speechSynthesis.speak(utterance);
-        }
-    };
+        };
+    })
 
     useEffect(() => {
         if (englishInputRef.current && vietnameseInputRef.current && typesInputRef.current) {
