@@ -110,7 +110,7 @@ const Options = ({ results, setResults, setVocabulariesPractice, setLanguages }:
                 placeholder="Select an list"
             >
                 <Option value='my-list'>My List</Option>
-                <Option value='qilearn-list'>Qilearn's List</Option>
+                <Option value='qilearn-list'>{"Qilearn's List"}</Option>
             </Select>
             <Box />
             <Select
