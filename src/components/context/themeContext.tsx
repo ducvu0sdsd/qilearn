@@ -9,7 +9,6 @@ import { signOut, useSession } from "next-auth/react";
 import Cookies from 'js-cookie';
 import useSWR from "swr";
 import { vocabularies as english, getEnglish, getTypes, getVietNamese } from "@/utils/translate/translate";
-import { getAllGrammarsByUserID, getAllVocabulariesByUserID } from "@/utils/api/vocabulariesAPI";
 import { ThemeProvider } from "@material-tailwind/react";
 
 
@@ -51,6 +50,29 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
         setTimeout(() => {
             setToast({ status: StatusToast.NONE, message: '' })
         }, 2900)
+    }
+
+    const getAllVocabulariesByUserID: (id: string) => { data: WordInterface[], isLoading: boolean } = (id: string) => {
+        const fetcher = (url: string) => api({ path: url, type: TypeHTTP.GET }).then(res => res);
+        const { data, error, isLoading } = useSWR(`/vocabularies/${id}`, fetcher, {
+            revalidateOnFocus: false,
+            revalidateIfStale: false,
+            revalidateOnReconnect: false,
+        });
+        return {
+            data: (data as WordInterface[]) || [],
+            isLoading: isLoading
+        }
+    }
+
+    const getAllGrammarsByUserID: (id: string) => GrammarInterface[] = (id: string) => {
+        const fetcher = (url: string) => api({ path: url, type: TypeHTTP.GET }).then(res => res);
+        const { data, error, isLoading } = useSWR(`/grammars/${id}`, fetcher, {
+            revalidateOnFocus: false,
+            revalidateIfStale: false,
+            revalidateOnReconnect: false,
+        });
+        return (data as GrammarInterface[]) || []
     }
 
     const { data, isLoading } = getAllVocabulariesByUserID(user?._id || '')
