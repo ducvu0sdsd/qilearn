@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => {
     return (
-        <footer className='gap-3 grid-cols-2 md:px-[10px] sm:grid-cols-5 lg:px-[15rem] justify-items-center w-full grid bg-[#4dac96] py-12 rounded-t-xl text-white justify-center items-center sm:gap-16'>
+        <footer id='about' className='gap-3 grid-cols-2 md:px-[10px] sm:grid-cols-5 lg:px-[15rem] justify-items-center w-full grid bg-[#4dac96] py-12 rounded-t-xl text-white justify-center items-center sm:gap-16'>
             <div className='hidden sm:flex flex-col gap-3'>
                 <img src='/logo-mini.png' className='w-[150px]' />
                 <p className='font-semibold text-[18px]'>© Qilearn, A VF Company</p>

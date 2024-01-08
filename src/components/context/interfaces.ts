@@ -23,6 +23,7 @@ export enum TypeUser {
 }
 
 export interface WordInterface {
+    _id?: any
     english: string
     vietnamese: string
     types: string[]
@@ -36,4 +37,32 @@ export interface PronouncesInterface {
     name: string,
     voiceName: string,
     image: string
+}
+
+export interface ResultPracticeVocabularyInterface {
+    _id?: any
+    english: string
+    vietnamese: string
+    result: string
+}
+
+export interface ResultPracticeGrammarInterface {
+    _id?: any
+    structure: string
+    vietnamese: string
+    result: string
+}
+
+export interface GrammarInterface {
+    _id?: any
+    structure: string
+    vietnamese: string
+    user_id?: string
+}
+
+export interface SubtitleItemInterface {
+    id: number,
+    firstTime: number,
+    lastTime: number,
+    content: string
 }

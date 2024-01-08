@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import InputText from '../input-text'
+import InputText from './input-text'
 import { InputTextInterface, WordInterface } from '../context/interfaces'
 import axios from 'axios'
 import { ThemeContext } from '../context/themeContext'
-import { changeTypesToVietnamese } from '@/utils/translate/translate'
+import { changeTypesToVietnamese, vocabularies } from '@/utils/translate/translate'
 import { TypeHTTP, api } from '@/utils/api/api'
+import { StatusToast } from '../toast'
 axios.defaults.withCredentials = true
 
 const FormSearchVocabulary = () => {
@@ -42,17 +43,35 @@ const FormSearchVocabulary = () => {
 
     const handleInsertWord = () => {
         if (englishInputRef.current && vietnameseInputRef.current && typesInputRef.current) {
-            const body = {
-                user_id: datas?.user?._id,
-                english: englishInputRef.current.value,
-                vietnamese: vietnameseInputRef.current.value,
-                types: typesInputRef.current.value.split(',').map(item => item.trim())
+            if (datas?.user) {
+                const body = {
+                    user_id: datas.user._id,
+                    english: englishInputRef.current.value,
+                    vietnamese: vietnameseInputRef.current.value,
+                    types: typesInputRef.current.value.split(',').map(item => item.trim())
+                }
+                api({ path: '/vocabularies', body: body, type: TypeHTTP.POST })
+                    .then(res => {
+                        const result = (res as WordInterface)
+                        handles?.setVocabularies([...datas?.vocabularies || [], result])
+                        handles?.handleSetNotification({ status: StatusToast.SUCCESS, message: 'Insert to My List Successfully' })
+                        setCurrentWord(undefined)
+                    })
+                    .catch(res => {
+                        handles?.handleSetNotification({ status: StatusToast.FAIL, message: res.message })
+                    })
             }
-            api({ path: '/vocabularies', body: body, type: TypeHTTP.POST })
-                .then(res => {
-                    console.log(res)
-                })
         }
+    }
+
+    const handleRemoveVocabulary = () => {
+        api({ path: `/vocabularies/${currentWord?._id}`, type: TypeHTTP.DELETE })
+            .then(res => {
+                const result: any = res
+                handles?.setVocabularies(datas?.vocabularies.filter(item => item.english.toLowerCase() !== result.english.toLowerCase()) || [])
+                handles?.handleSetNotification({ status: StatusToast.SUCCESS, message: 'Remove from My List Successfully' })
+                setCurrentWord(undefined)
+            })
     }
 
     return (
@@ -81,6 +100,10 @@ const FormSearchVocabulary = () => {
                         onClick={() => setCurrentWord(undefined)}
                         className='hover:scale-[1.03] transition-all bg-[#f04848] mr-[0.5rem] text-[white] px-[1rem] py-[0.5rem] rounded-md'
                     >Clear</button>}
+                    {currentWord?._id && <button
+                        onClick={() => handleRemoveVocabulary()}
+                        className='hover:scale-[1.03] transition-all bg-[#f04848] mr-[0.5rem] text-[white] px-[1rem] py-[0.5rem] rounded-md'
+                    >Remove From My List</button>}
                     <button
                         onClick={() => handles?.setShowForm(true)}
                         className='hover:scale-[1.03] transition-all bg-[#4dac96] text-[white] px-[1rem] py-[0.5rem] rounded-md'

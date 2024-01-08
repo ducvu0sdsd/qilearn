@@ -2,12 +2,15 @@
 import { createContext, use, useEffect, useState } from "react";
 import React from 'react'
 import Toast, { StatusToast, ToastInterface } from "../toast";
-import { PronouncesInterface, UserInterface } from "./interfaces";
+import { GrammarInterface, PronouncesInterface, UserInterface, WordInterface } from "./interfaces";
 import { usePathname, useRouter } from "next/navigation";
 import { TypeHTTP, api } from "@/utils/api/api";
 import { signOut, useSession } from "next-auth/react";
 import Cookies from 'js-cookie';
-import { I18nextProvider } from 'react-i18next';
+import useSWR from "swr";
+import { vocabularies as english, getEnglish, getTypes, getVietNamese } from "@/utils/translate/translate";
+import { getAllGrammarsByUserID, getAllVocabulariesByUserID } from "@/utils/api/vocabulariesAPI";
+import { ThemeProvider } from "@material-tailwind/react";
 
 
 export const ThemeContext = createContext<{ datas: ThemeData; handles: ThemeHandles } | undefined>(undefined);
@@ -17,12 +20,18 @@ export interface ThemeData {
     user: UserInterface | undefined,
     showForm: boolean,
     pronounces: PronouncesInterface[]
+    vocabularies: WordInterface[]
+    grammars: GrammarInterface[]
 }
 
 export interface ThemeHandles {
     handleSetNotification: ({ status, message }: { status: StatusToast, message: string }) => void
     setUser: React.Dispatch<React.SetStateAction<UserInterface | undefined>>
     setShowForm: React.Dispatch<React.SetStateAction<boolean>>
+    setVocabularies: React.Dispatch<React.SetStateAction<WordInterface[]>>
+    setGrammars: React.Dispatch<React.SetStateAction<GrammarInterface[]>>
+    getTotalVocabularies: () => WordInterface[]
+    getTotalQilearnVocabularies: () => WordInterface[]
 }
 
 export interface ThemeContextProviderProps {
@@ -34,12 +43,54 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
     const [toast, setToast] = useState<ToastInterface>({ message: '', status: StatusToast.NONE })
     const [user, setUser] = useState<UserInterface | undefined>(undefined)
     const [showForm, setShowForm] = useState<boolean>(false)
+    const [vocabularies, setVocabularies] = useState<WordInterface[]>([])
+    const [grammars, setGrammars] = useState<GrammarInterface[]>([])
 
     const handleSetNotification = ({ status, message }: { status: StatusToast, message: string }) => {
         setToast({ status, message })
         setTimeout(() => {
             setToast({ status: StatusToast.NONE, message: '' })
         }, 2900)
+    }
+
+    const { data, isLoading } = getAllVocabulariesByUserID(user?._id || '')
+    useEffect(() => {
+        if (data) {
+            setVocabularies(data)
+        }
+    }, [isLoading])
+
+    const grammar = getAllGrammarsByUserID(user?._id || '')
+
+    const getTotalVocabularies = () => {
+        const results = vocabularies.map(item => item)
+        const vocas = results.map((eng) => {
+            return eng.english.toLowerCase()
+        })
+        english.forEach((word: any) => {
+            const vocabulary: WordInterface = {
+                english: getEnglish(word),
+                types: getTypes(word),
+                vietnamese: getVietNamese(word)
+            }
+            if (!vocas.includes(vocabulary.english.toLowerCase())) {
+                results.push(vocabulary)
+            }
+        })
+        return results
+    }
+
+    const getTotalQilearnVocabularies = () => {
+        const results: WordInterface[] = []
+        english.forEach((word: any) => {
+            const vocabulary: WordInterface = {
+                english: getEnglish(word),
+                types: getTypes(word),
+                vietnamese: getVietNamese(word)
+            }
+            results.push(vocabulary)
+        })
+        return results
     }
 
     const pronounces = [
@@ -128,20 +179,28 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
         toast,
         user,
         showForm,
-        pronounces
+        pronounces,
+        vocabularies,
+        grammars
     };
 
     const handles: ThemeHandles = {
         handleSetNotification,
         setUser,
-        setShowForm
+        setShowForm,
+        setVocabularies,
+        getTotalVocabularies,
+        getTotalQilearnVocabularies,
+        setGrammars
     };
 
     return (
         <ThemeContext.Provider value={{ datas, handles }}>
-            <div onClick={() => setShowForm(false)} className={`w-screen h-screen z-20 fixed top-0 left-0 bg-[#0000004b] ${datas?.showForm ? 'block' : 'hidden'}`} />
-            <Toast message={toast.message} status={toast.status} />
-            {children}
+            <ThemeProvider>
+                <div onClick={() => setShowForm(false)} className={`w-screen h-screen z-20 fixed top-0 left-0 bg-[#0000004b] ${datas?.showForm ? 'block' : 'hidden'}`} />
+                <Toast message={toast.message} status={toast.status} />
+                {children}
+            </ThemeProvider>
         </ThemeContext.Provider>
     )
 }

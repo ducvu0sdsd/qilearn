@@ -47,13 +47,6 @@ const AuthPage = () => {
             })
     }
 
-    // const fetcher = (url: string) => api({ path: url, type: TypeHTTP.GET }).then(res => res);
-    // const { data, error, isLoading } = useSWR('/users', fetcher, {
-    //     revalidateOnFocus: false,
-    //     revalidateIfStale: false,
-    //     revalidateOnReconnect: false,
-    // });
-
     const { data: session, status } = useSession()
     const [isSignIn, setIsSignIn] = useState<boolean>(false)
     useEffect(() => {

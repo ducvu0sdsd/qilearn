@@ -9,7 +9,7 @@ const NodeList = ({ urlImage, url }: { url: string, urlImage: string }) => {
             animate={{ x: 0, opacity: 1, transition: { duration: 0.7 } }}
 
             className='bg-black rounded-xl overflow-hidden cursor-pointer'>
-            <Link href={'english-management'}><img src={urlImage} width={'100%'} /></Link>
+            <Link href={url}><img src={urlImage} width={'100%'} /></Link>
         </motion.div>
     )
 }

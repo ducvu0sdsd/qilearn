@@ -1,6 +1,6 @@
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
-import { InputTextInterface, WordInterface } from './context/interfaces'
-import { getEnglish, getTypes, getVietNamese, vocabularies } from '@/utils/translate/translate'
+import React, { MutableRefObject, useContext, useEffect, useRef, useState } from 'react'
+import { InputTextInterface, WordInterface } from '../context/interfaces'
+import { ThemeContext } from '../context/themeContext'
 
 const InputText = ({ setCurrentWord }: InputTextInterface) => {
 
@@ -9,6 +9,7 @@ const InputText = ({ setCurrentWord }: InputTextInterface) => {
     const [words, setWords] = useState<WordInterface[]>([])
     const [language, setLanguage] = useState<string>('en')
     const [input, setInput] = useState<string>('')
+    const { datas, handles } = useContext(ThemeContext) || {}
 
     useEffect(() => {
         if (inputRef.current && resultRef.current) {
@@ -23,22 +24,14 @@ const InputText = ({ setCurrentWord }: InputTextInterface) => {
             if (input !== '') {
                 resultRef.current.style.height = 'auto'
                 const results: WordInterface[] = []
-                vocabularies.forEach(voca => {
+                handles?.getTotalVocabularies().forEach(voca => {
                     if (language === 'en') {
-                        if (getEnglish(voca).toLowerCase().includes(input.toLowerCase())) {
-                            results.push({
-                                english: getEnglish(voca),
-                                vietnamese: getVietNamese(voca),
-                                types: getTypes(voca)
-                            })
+                        if (voca.english.toLowerCase().includes(input.toLowerCase())) {
+                            results.push(voca)
                         }
                     } else if (language === 'vi') {
-                        if (getVietNamese(voca).toLowerCase().includes(input.toLowerCase())) {
-                            results.push({
-                                english: getEnglish(voca),
-                                vietnamese: getVietNamese(voca),
-                                types: getTypes(voca)
-                            })
+                        if (voca.vietnamese.toLowerCase().includes(input.toLowerCase())) {
+                            results.push(voca)
                         }
                     }
                 })

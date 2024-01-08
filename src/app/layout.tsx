@@ -33,7 +33,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <div className='bg-white w-[100%] min-h-screen z-10'>
+        <div className='bg-[white] w-[100%] min-h-screen z-10'>
           <Provider>
             {children}
           </Provider>
