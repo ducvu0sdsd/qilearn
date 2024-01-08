@@ -52,37 +52,30 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
         }, 2900)
     }
 
-    const getAllVocabulariesByUserID: (id: string) => { data: WordInterface[], isLoading: boolean } = (id: string) => {
-        const fetcher = (url: string) => api({ path: url, type: TypeHTTP.GET }).then(res => res);
-        const { data, error, isLoading } = useSWR(`/vocabularies/${id}`, fetcher, {
-            revalidateOnFocus: false,
-            revalidateIfStale: false,
-            revalidateOnReconnect: false,
-        });
-        return {
-            data: (data as WordInterface[]) || [],
-            isLoading: isLoading
-        }
-    }
-
-    const getAllGrammarsByUserID: (id: string) => GrammarInterface[] = (id: string) => {
-        const fetcher = (url: string) => api({ path: url, type: TypeHTTP.GET }).then(res => res);
-        const { data, error, isLoading } = useSWR(`/grammars/${id}`, fetcher, {
-            revalidateOnFocus: false,
-            revalidateIfStale: false,
-            revalidateOnReconnect: false,
-        });
-        return (data as GrammarInterface[]) || []
-    }
-
-    const { data, isLoading } = getAllVocabulariesByUserID(user?._id || '')
+    const fetcher = (url: string) => api({ path: url, type: TypeHTTP.GET }).then(res => res);
+    const { data, error, isLoading } = useSWR(`/vocabularies/${user?._id}`, fetcher, {
+        revalidateOnFocus: false,
+        revalidateIfStale: false,
+        revalidateOnReconnect: false,
+    });
     useEffect(() => {
         if (data) {
-            setVocabularies(data)
+            setVocabularies((data as WordInterface[]))
         }
     }, [isLoading])
 
-    const grammar = getAllGrammarsByUserID(user?._id || '')
+
+    const fetcher1 = (url: string) => api({ path: url, type: TypeHTTP.GET }).then(res => res);
+    const r = useSWR(`/grammars/${user?._id}`, fetcher1, {
+        revalidateOnFocus: false,
+        revalidateIfStale: false,
+        revalidateOnReconnect: false,
+    });
+    useEffect(() => {
+        if (r.data) {
+            setGrammars((r.data as GrammarInterface[]))
+        }
+    }, [r.isLoading])
 
     const getTotalVocabularies = () => {
         const results = vocabularies.map(item => item)
