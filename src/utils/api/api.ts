@@ -2,7 +2,6 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 // axios.defaults.baseURL = 'http://localhost:8080'
 axios.defaults.baseURL = 'https://qilearn-be.vercel.app'
-axios.defaults.withCredentials = true
 
 export enum TypeHTTP {
     POST = 'post',
