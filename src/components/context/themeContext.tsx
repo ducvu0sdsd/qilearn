@@ -158,8 +158,6 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
                     }
                 })
                 .catch(res => {
-                    Cookies.remove('accessToken')
-                    Cookies.remove('refreshToken')
                     handles?.setUser(undefined)
                     router.push('/')
                 })
