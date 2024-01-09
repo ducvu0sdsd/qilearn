@@ -85,7 +85,11 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
 
     // Get All BroadCast 
     const fetcherBroadCast = (url: string) => api({ path: url, type: TypeHTTP.GET }).then(res => res)
-    const broadCastsResult = useSWR('/broadcasts', fetcherBroadCast)
+    const broadCastsResult = useSWR('/broadcasts', fetcherBroadCast, {
+        revalidateOnFocus: false,
+        revalidateIfStale: false,
+        revalidateOnReconnect: false,
+    })
     useEffect(() => {
         if (broadCastsResult.data) {
             setBroadCasts((broadCastsResult.data as BroadcastInterface[]))
