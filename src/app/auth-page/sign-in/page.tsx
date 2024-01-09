@@ -31,8 +31,10 @@ const AuthPage = () => {
                 handles?.handleSetNotification({ message: 'Logged in successfully', status: StatusToast.SUCCESS })
                 handles?.setUser(result.metadata.data.user)
                 try {
-                    Cookies.set('accessToken', result.metadata.data.accessToken)
-                    Cookies.set('refreshToken', result.metadata.data.refreshToken)
+                    // Cookies.set('accessToken', result.metadata.data.accessToken)
+                    // Cookies.set('refreshToken', result.metadata.data.refreshToken)
+                    globalThis.window.localStorage.setItem('accessToken', result.metadata.data.accessToken)
+                    globalThis.window.localStorage.setItem('refreshToken', result.metadata.data.refreshToken)
                 } catch (error) {
                     console.log(error)
                 }
@@ -72,8 +74,11 @@ const AuthPage = () => {
                                 setIsSignIn(false)
                                 handles?.setUser(result.metadata.data.user)
                                 try {
-                                    Cookies.set('accessToken', result.metadata.data.accessToken)
-                                    Cookies.set('refreshToken', result.metadata.data.refreshToken)
+                                    console.log(result)
+                                    // Cookies.set('accessToken', result.metadata.data.accessToken)
+                                    // Cookies.set('refreshToken', result.metadata.data.refreshToken)
+                                    globalThis.window.localStorage.setItem('accessToken', result.metadata.data.accessToken)
+                                    globalThis.window.localStorage.setItem('refreshToken', result.metadata.data.refreshToken)
                                 } catch (error) {
                                     console.log(error)
                                 }

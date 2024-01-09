@@ -166,8 +166,8 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
                 .then(res => {
                     const result: any = res
                     try {
-                        globalThis.localStorage.setItem('accessToken', result.auth.accessToken)
-                        globalThis.localStorage.setItem('refreshToken', result.auth.refreshToken)
+                        globalThis.window.localStorage.setItem('accessToken', result.auth.accessToken)
+                        globalThis.window.localStorage.setItem('refreshToken', result.auth.refreshToken)
                         // Cookies.set('accessToken', result.auth.accessToken)
                         // Cookies.set('refreshToken', result.auth.refreshToken)
                         handles.setUser(result.user)
@@ -184,8 +184,8 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
                 .then(res => {
                     const result: any = res
                     try {
-                        globalThis.localStorage.setItem('accessToken', result.auth.accessToken)
-                        globalThis.localStorage.setItem('refreshToken', result.auth.refreshToken)
+                        globalThis.window.localStorage.setItem('accessToken', result.auth.accessToken)
+                        globalThis.window.localStorage.setItem('refreshToken', result.auth.refreshToken)
                         // Cookies.set('accessToken', result.auth.accessToken)
                         // Cookies.set('refreshToken', result.auth.refreshToken)
                         handles.setUser(result.user)
