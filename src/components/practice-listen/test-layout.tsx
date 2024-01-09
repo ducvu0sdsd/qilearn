@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react'
 import ReactPlayer from 'react-player'
-import { BroadCastYoutubeInterface } from '../context/interfaces';
+import { BroadcastInterface } from '../context/interfaces';
 
 interface TestLayoutInterface {
-    currentBroadcast: BroadCastYoutubeInterface
+    currentBroadcast: BroadcastInterface
 }
 
 const TestLayout = ({ currentBroadcast }: TestLayoutInterface) => {
