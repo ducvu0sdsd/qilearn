@@ -60,9 +60,23 @@ export interface GrammarInterface {
     user_id?: string
 }
 
-export interface SubtitleItemInterface {
+export interface SubtitleInterface {
     id: number,
     firstTime: number,
     lastTime: number,
     content: string
+}
+
+export interface BroadcastInterface {
+    _id?: any
+    urlVideo: string
+    englishSubtitle: SubtitleInterface[]
+    vietnameseSubtitle: SubtitleInterface[]
+}
+
+export interface BroadCastYoutubeInterface extends BroadcastInterface {
+    title: string
+    channelName: string
+    thum: string
+    duration: string
 }

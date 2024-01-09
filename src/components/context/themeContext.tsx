@@ -2,7 +2,7 @@
 import { createContext, use, useEffect, useState } from "react";
 import React from 'react'
 import Toast, { StatusToast, ToastInterface } from "../toast";
-import { GrammarInterface, PronouncesInterface, UserInterface, WordInterface } from "./interfaces";
+import { BroadcastInterface, GrammarInterface, PronouncesInterface, UserInterface, WordInterface } from "./interfaces";
 import { usePathname, useRouter } from "next/navigation";
 import { TypeHTTP, api } from "@/utils/api/api";
 import { signOut, useSession } from "next-auth/react";
@@ -21,6 +21,7 @@ export interface ThemeData {
     pronounces: PronouncesInterface[]
     vocabularies: WordInterface[]
     grammars: GrammarInterface[]
+    broadCasts: BroadcastInterface[]
 }
 
 export interface ThemeHandles {
@@ -29,6 +30,7 @@ export interface ThemeHandles {
     setShowForm: React.Dispatch<React.SetStateAction<boolean>>
     setVocabularies: React.Dispatch<React.SetStateAction<WordInterface[]>>
     setGrammars: React.Dispatch<React.SetStateAction<GrammarInterface[]>>
+    setBroadCasts: React.Dispatch<React.SetStateAction<BroadcastInterface[]>>
     getTotalVocabularies: () => WordInterface[]
     getTotalQilearnVocabularies: () => WordInterface[]
 }
@@ -44,6 +46,7 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
     const [showForm, setShowForm] = useState<boolean>(false)
     const [vocabularies, setVocabularies] = useState<WordInterface[]>([])
     const [grammars, setGrammars] = useState<GrammarInterface[]>([])
+    const [broadCasts, setBroadCasts] = useState<BroadcastInterface[]>([])
 
     const handleSetNotification = ({ status, message }: { status: StatusToast, message: string }) => {
         setToast({ status, message })
@@ -52,6 +55,7 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
         }, 2900)
     }
 
+    // Get all vocabularies By user ID
     const fetcher = (url: string) => api({ path: url, type: TypeHTTP.GET }).then(res => res);
     const { data, error, isLoading } = useSWR(`/vocabularies/${user?._id}`, fetcher, {
         revalidateOnFocus: false,
@@ -65,8 +69,9 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
     }, [isLoading])
 
 
-    const fetcher1 = (url: string) => api({ path: url, type: TypeHTTP.GET }).then(res => res);
-    const r = useSWR(`/grammars/${user?._id}`, fetcher1, {
+    // Get all grammars By user ID
+    const fetcherGrammar = (url: string) => api({ path: url, type: TypeHTTP.GET }).then(res => res);
+    const r = useSWR(`/grammars/${user?._id}`, fetcherGrammar, {
         revalidateOnFocus: false,
         revalidateIfStale: false,
         revalidateOnReconnect: false,
@@ -76,6 +81,17 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
             setGrammars((r.data as GrammarInterface[]))
         }
     }, [r.isLoading])
+
+
+    // Get All BroadCast 
+    const fetcherBroadCast = (url: string) => api({ path: url, type: TypeHTTP.GET }).then(res => res)
+    const broadCastsResult = useSWR('/broadcasts', fetcherBroadCast)
+    useEffect(() => {
+        if (broadCastsResult.data) {
+            setBroadCasts((broadCastsResult.data as BroadcastInterface[]))
+        }
+    }, [broadCastsResult.isLoading])
+
 
     const getTotalVocabularies = () => {
         const results = vocabularies.map(item => item)
@@ -150,8 +166,10 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
                 .then(res => {
                     const result: any = res
                     try {
-                        Cookies.set('accessToken', result.auth.accessToken)
-                        Cookies.set('refreshToken', result.auth.refreshToken)
+                        globalThis.localStorage.setItem('accessToken', result.auth.accessToken)
+                        globalThis.localStorage.setItem('refreshToken', result.auth.refreshToken)
+                        // Cookies.set('accessToken', result.auth.accessToken)
+                        // Cookies.set('refreshToken', result.auth.refreshToken)
                         handles.setUser(result.user)
                     } catch (error) {
                         console.log(error)
@@ -166,8 +184,10 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
                 .then(res => {
                     const result: any = res
                     try {
-                        Cookies.set('accessToken', result.auth.accessToken)
-                        Cookies.set('refreshToken', result.auth.refreshToken)
+                        globalThis.localStorage.setItem('accessToken', result.auth.accessToken)
+                        globalThis.localStorage.setItem('refreshToken', result.auth.refreshToken)
+                        // Cookies.set('accessToken', result.auth.accessToken)
+                        // Cookies.set('refreshToken', result.auth.refreshToken)
                         handles.setUser(result.user)
                         router.push('/home-page')
                     } catch (error) {
@@ -194,7 +214,8 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
         showForm,
         pronounces,
         vocabularies,
-        grammars
+        grammars,
+        broadCasts
     };
 
     const handles: ThemeHandles = {
@@ -204,7 +225,8 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
         setVocabularies,
         getTotalVocabularies,
         getTotalQilearnVocabularies,
-        setGrammars
+        setGrammars,
+        setBroadCasts
     };
 
     return (

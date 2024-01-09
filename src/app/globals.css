@@ -9,6 +9,18 @@
     text-decoration: underline;
 }
 
+.sub-active {
+    color: #6dbaa8;
+}
+
+.english-active {
+    font-size: 22px;
+}
+
+.vietnamese-active {
+    font-size: 17px;
+}
+
 ::-webkit-scrollbar {
     width: 4px;
 

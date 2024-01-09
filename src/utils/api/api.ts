@@ -18,8 +18,10 @@ export interface APIType {
 
 export const api = ({ path, body, type }: APIType) => {
     const user_id = Cookies.get('user_id')
-    const accessToken = Cookies.get('accessToken')
-    const refreshToken = Cookies.get('refreshToken')
+    // const accessToken = Cookies.get('accessToken')
+    // const refreshToken = Cookies.get('refreshToken')
+    const accessToken = globalThis.localStorage.getItem('accessToken')
+    const refreshToken = globalThis.localStorage.getItem('refreshToken')
     return new Promise((rejects, resolve) => {
         switch (type) {
             case TypeHTTP.GET:
