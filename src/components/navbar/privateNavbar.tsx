@@ -13,8 +13,8 @@ const PrivateNavbar = () => {
     const subMenuRef = useRef<HTMLImageElement>(null)
     const router = useRouter()
     const handleSignOut = () => {
-        Cookies.remove('accessToken')
-        Cookies.remove('refreshToken')
+        globalThis.window.localStorage.removeItem('accessToken')
+        globalThis.window.localStorage.removeItem('refreshToken')
         handles?.setUser(undefined)
         signOut()
     }
