@@ -1,24 +1,32 @@
-import React, { useRef, useState } from 'react'
-import { BroadCastYoutubeInterface } from '../context/interfaces'
+import React, { useEffect, useRef, useState } from 'react'
+import { BroadcastInterface } from '../context/interfaces'
 import ReactPlayer from 'react-player/lazy'
 import { Button } from '@material-tailwind/react'
 
 interface PracticeLayoutInterface {
-    currentBroadcast: BroadCastYoutubeInterface
+    currentBroadcast: BroadcastInterface
     setStartTest: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+interface TopInterface {
+    top: number
+    index: number
 }
 
 const PracticeLayout = ({ currentBroadcast, setStartTest }: PracticeLayoutInterface) => {
 
     const reactPlayerRef = useRef<ReactPlayer>(null);
     const [playing, setPlaying] = useState<boolean>(false)
+    const [top, setTop] = useState<TopInterface[]>([])
 
     const handleOnProgress = () => {
         if (reactPlayerRef.current) {
             const currentTime = reactPlayerRef.current.getCurrentTime()
             currentBroadcast.englishSubtitle.forEach((item, index) => {
+                const i = index
                 if (currentTime >= item.firstTime && currentTime <= item.lastTime) {
                     const wrapperSub = document.querySelector('.sub-wrapper') as HTMLElement | null
+                    const prevSub = document.querySelector(`.sub-${index === 0 ? index : index - 1}`) as HTMLElement | null
                     const currentSub = document.querySelector(`.sub-${index}`) as HTMLElement | null
                     const currentSubEnglish = document.querySelector(`.sub-${index} .english`) as HTMLElement | null
                     const currentSubVietnamese = document.querySelector(`.sub-${index} .vietnamese`) as HTMLElement | null
@@ -26,15 +34,33 @@ const PracticeLayout = ({ currentBroadcast, setStartTest }: PracticeLayoutInterf
                     document.querySelector('.english-active')?.classList.remove('english-active')
                     document.querySelector('.vietnamese-active')?.classList.remove('vietnamese-active')
                     currentSub?.classList.add('sub-active')
-                    if (wrapperSub && currentSub && currentSubEnglish && currentSubVietnamese) {
+                    if (wrapperSub && currentSub && currentSubEnglish && currentSubVietnamese && prevSub) {
                         wrapperSub.style.marginTop = ((currentSub.offsetHeight) * -index) + 'px';
                         currentSubEnglish.classList.add('english-active')
                         currentSubVietnamese.classList.add('vietnamese-active')
+                        const h = top.filter((item, index) => index <= i).reduce((total, current) => total + current.top, 0)
+                        wrapperSub.style.marginTop = `-${h - 100}px`
                     }
                 }
             })
         }
     }
+
+    useEffect(() => {
+        const subs = document.querySelectorAll('.sub') as NodeListOf<HTMLElement>;
+        const topSubs: TopInterface[] = []
+        subs.forEach((sub, index) => {
+            if (sub) {
+                const computedStyle = globalThis.window.getComputedStyle(sub);
+                const heightWithMargin = sub.offsetHeight + parseFloat(computedStyle.marginTop);
+                topSubs.push({
+                    index,
+                    top: index === 0 ? 0 : heightWithMargin
+                })
+            }
+        })
+        setTop(topSubs)
+    }, [])
 
     return (
         <section className='mt-[5rem] mb-[2rem] px-[2rem]'>
@@ -82,7 +108,7 @@ const PracticeLayout = ({ currentBroadcast, setStartTest }: PracticeLayoutInterf
                         >Are you following your dreams? ⏲️ 6 Minute English</span>
                         {currentBroadcast.englishSubtitle.map((item, index) => (
                             <p
-                                className={`h-[70px] justify-center flex flex-col transition-all sub-${index}`}
+                                className={`min-h-[50px] my-6 justify-center flex flex-col transition-all sub sub-${index}`}
                                 key={index}>
                                 <span className='font-poppins text-[19px] english'>{item.content}</span>
                                 <span className='vietnamese'>{currentBroadcast.vietnameseSubtitle[index].content}</span>

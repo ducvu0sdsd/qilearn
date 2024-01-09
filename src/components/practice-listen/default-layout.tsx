@@ -1,39 +1,32 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ThemeContext } from '../context/themeContext'
-import { BroadCastYoutubeInterface } from '../context/interfaces'
 import axios from 'axios'
 import { formatDuration, parseISO8601Duration } from '@/utils/broadcast/time'
+import { BroadcastInterface } from '../context/interfaces'
 
 interface DefaultLayoutInterface {
-    setCurrentBroadcast: React.Dispatch<React.SetStateAction<BroadCastYoutubeInterface | undefined>>
+    setCurrentBroadcast: React.Dispatch<React.SetStateAction<BroadcastInterface | undefined>>
 }
 
 const DefaultLayout = ({ setCurrentBroadcast }: DefaultLayoutInterface) => {
 
     const { datas, handles } = useContext(ThemeContext) || {}
-    const [broadCasts, setBroadCasts] = useState<BroadCastYoutubeInterface[]>([])
+    const [broadCasts, setBroadCasts] = useState<BroadcastInterface[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
-        datas?.broadCasts.forEach(item => {
-            const urlVideo = `https://www.youtube.com/watch?v=${item.urlVideo}`
-            const englishSubtitle = item.englishSubtitle
-            const vietnameseSubtitle = item.vietnameseSubtitle
-            axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${item.urlVideo}&key=${'AIzaSyDTLfgv7rV1y5IVP45BzfAECkXxxoskm1Q'}&part=snippet,contentDetails,statistics,status`)
-                .then(res => {
-                    console.log(res.data.items[0])
-                    const title = res.data.items[0].snippet.title
-                    const thum = res.data.items[0].snippet.thumbnails.maxres.url
-                    const duration = formatDuration(parseISO8601Duration(res.data.items[0].contentDetails.duration)).replace('00:', '')
-                    const channelName = res.data.items[0].snippet.channelTitle
-                    const result: BroadCastYoutubeInterface = { urlVideo, englishSubtitle, vietnameseSubtitle, title, thum, duration, channelName }
-                    setBroadCasts([...broadCasts, result])
-                })
-        })
+        setBroadCasts(datas?.broadCasts || [])
     }, [datas?.broadCasts])
 
     useEffect(() => {
-        console.log(broadCasts)
+        if (broadCasts.length === datas?.broadCasts.length) {
+            setLoading(false)
+        }
     }, [broadCasts])
+
+    useEffect(() => {
+        console.log(loading)
+    }, [loading])
 
     return (
         <section className='pt-[5rem] pb-[2rem] px-[2rem]'>

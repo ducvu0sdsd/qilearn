@@ -72,9 +72,6 @@ export interface BroadcastInterface {
     urlVideo: string
     englishSubtitle: SubtitleInterface[]
     vietnameseSubtitle: SubtitleInterface[]
-}
-
-export interface BroadCastYoutubeInterface extends BroadcastInterface {
     title: string
     channelName: string
     thum: string
