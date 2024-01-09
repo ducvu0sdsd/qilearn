@@ -1,5 +1,5 @@
 'use client'
-import { BroadCastYoutubeInterface } from '@/components/context/interfaces'
+import { BroadcastInterface } from '@/components/context/interfaces'
 import Footer from '@/components/footer/Footer'
 import PrivateNavbar from '@/components/navbar/privateNavbar'
 import DefaultLayout from '@/components/practice-listen/default-layout'
@@ -10,7 +10,7 @@ import React, { useState } from 'react'
 
 const PracticeListen = () => {
 
-    const [currentBroadcast, setCurrentBroadcast] = useState<BroadCastYoutubeInterface | undefined>(undefined)
+    const [currentBroadcast, setCurrentBroadcast] = useState<BroadcastInterface | undefined>(undefined)
     const [startTest, setStartTest] = useState<boolean>(false)
 
     return (

@@ -34,6 +34,7 @@ const BroadcastManagement = () => {
 
         api({ path: '/broadcasts', type: TypeHTTP.POST, body: formData })
             .then(res => {
+                console.log(res)
                 alert('success')
             })
     }

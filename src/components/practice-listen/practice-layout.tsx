@@ -96,7 +96,7 @@ const PracticeLayout = ({ currentBroadcast, setStartTest }: PracticeLayoutInterf
                     <div className='my-4 w-full flex justify-end'>
                         <Button
                             onClick={() => setStartTest(true)}
-                            className='font-poppins'
+                            className='text-[23px] font-poppins'
                             placeholder="YourPlaceholderText"
                         >Start The Test</Button>
                     </div>

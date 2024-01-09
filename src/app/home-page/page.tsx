@@ -25,12 +25,12 @@ const HomePage = () => {
                         animate={{ y: 0, opacity: 1, transition: { duration: 0.7 } }}
                         className='font-bold text-[27px] md:text-[1.5rem] font-poppins my-3 text-[#2c2c2c]'>Learn English</motion.h2>
                     <div className='px-[1rem] grid-cols-1 md:grid-cols-4 md:px-[2rem] grid gap-x-5 gap-y-3 w-full'>
-                        <NodeList reload={false} url='/practice-vocabulary' urlImage='/practice-vocabulary.png' />
-                        <NodeList reload={true} url='/practice-listen' urlImage='/practice-listen.png' />
-                        <NodeList reload={false} url='/practice-grammar' urlImage='/practice-grammar.png' />
-                        <NodeList reload={false} url='' urlImage='/practice-speak.png' />
-                        <NodeList reload={false} url='/words-management' urlImage='/words-management.png' />
-                        <NodeList reload={false} url='/grammars-management' urlImage='/grammar-management.png' />
+                        <NodeList url='/practice-vocabulary' urlImage='/practice-vocabulary.png' />
+                        <NodeList url='/practice-listen' urlImage='/practice-listen.png' />
+                        <NodeList url='/practice-grammar' urlImage='/practice-grammar.png' />
+                        <NodeList url='' urlImage='/practice-speak.png' />
+                        <NodeList url='/words-management' urlImage='/words-management.png' />
+                        <NodeList url='/grammars-management' urlImage='/grammar-management.png' />
                     </div>
                 </section>
                 <section className='w-full h-auto mt-[2rem]'>
@@ -39,9 +39,9 @@ const HomePage = () => {
                         animate={{ y: 0, opacity: 1, transition: { duration: 0.7 } }}
                         className='font-bold text-[27px] md:text-[1.5rem] font-poppins my-3 text-[#2c2c2c]'>Other</motion.h2>
                     <div className='px-[1rem] grid-cols-1 md:grid-cols-4 md:px-[2rem] grid gap-x-5 gap-y-3 w-full'>
-                        <NodeList reload={false} url='' urlImage='/note-management.png' />
-                        <NodeList reload={false} url='' urlImage='/study-time-management.png' />
-                        <NodeList reload={false} url='' urlImage='/to-do-list.png' />
+                        <NodeList url='' urlImage='/note-management.png' />
+                        <NodeList url='' urlImage='/study-time-management.png' />
+                        <NodeList url='' urlImage='/to-do-list.png' />
                     </div>
                 </section>
                 <AnalyticalVocabulary />
