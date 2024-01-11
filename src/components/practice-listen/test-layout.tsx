@@ -40,8 +40,6 @@ const TestLayout = ({ setCurrentBroadcast, currentBroadcast, testPayload, setTes
     const [complete, setComplete] = useState<boolean>(false)
     const [percent, setPercent] = useState<{ true: number, false: number }>({ true: 0, false: 0 })
 
-    console.log(testPayload)
-
     const handleStart = () => {
         if (reactPlayerRef.current) {
             reactPlayerRef.current.seekTo(testPayload.sessionsEnglish[0].firstTime - 0.1)
@@ -52,7 +50,7 @@ const TestLayout = ({ setCurrentBroadcast, currentBroadcast, testPayload, setTes
     const handleOnProgress = () => {
         if (reactPlayerRef.current && inputRef.current && buttonRef.current) {
             const currentTime = reactPlayerRef.current.getCurrentTime()
-            if (currentTime >= testPayload.sessionsEnglish[currentSession].lastTime + 0.5) {
+            if (currentTime >= testPayload.sessionsEnglish[currentSession].lastTime + 0.1) {
                 setPlaying(false)
                 inputRef.current.disabled = false
                 buttonRef.current.disabled = false
