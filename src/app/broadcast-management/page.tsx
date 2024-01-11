@@ -38,6 +38,10 @@ const BroadcastManagement = () => {
                 alert(`Englishs : ${result.englishSubtitle.length} - Vietnamese : ${result.vietnameseSubtitle.length
                     }`)
             })
+            .catch(res => {
+                const result: any = res
+                alert(res.message)
+            })
     }
 
     return (
