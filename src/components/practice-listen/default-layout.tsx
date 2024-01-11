@@ -3,6 +3,7 @@ import { ThemeContext } from '../context/themeContext'
 import axios from 'axios'
 import { formatDuration, parseISO8601Duration } from '@/utils/broadcast/time'
 import { BroadcastInterface } from '../context/interfaces'
+import { shuffleArray } from '@/utils/vocabulary/vocabulary'
 
 interface DefaultLayoutInterface {
     setCurrentBroadcast: React.Dispatch<React.SetStateAction<BroadcastInterface | undefined>>
@@ -15,7 +16,7 @@ const DefaultLayout = ({ setCurrentBroadcast }: DefaultLayoutInterface) => {
     const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
-        setBroadCasts(datas?.broadCasts || [])
+        setBroadCasts(shuffleArray(datas?.broadCasts || []))
     }, [datas?.broadCasts])
 
     useEffect(() => {
