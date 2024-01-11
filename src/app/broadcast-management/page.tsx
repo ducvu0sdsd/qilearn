@@ -34,8 +34,9 @@ const BroadcastManagement = () => {
 
         api({ path: '/broadcasts', type: TypeHTTP.POST, body: formData })
             .then(res => {
-                console.log(res)
-                alert('success')
+                const result: any = res
+                alert(`Englishs : ${result.englishSubtitle.length} - Vietnamese : ${result.vietnameseSubtitle.length
+                    }`)
             })
     }
 
