@@ -1,11 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { BroadcastInterface } from '../context/interfaces'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { BroadcastInterface, SubtitleInterface } from '../context/interfaces'
 import ReactPlayer from 'react-player/lazy'
-import { Button } from '@material-tailwind/react'
+import { Button, Input } from '@material-tailwind/react'
+import { ThemeContext } from '../context/themeContext'
+import { StatusToast } from '../toast'
 
 interface PracticeLayoutInterface {
     currentBroadcast: BroadcastInterface
-    setStartTest: React.Dispatch<React.SetStateAction<boolean>>
+    setTestPayload: React.Dispatch<React.SetStateAction<{
+        startTest: boolean,
+        sessionsEnglish: SubtitleInterface[]
+        sessionsVietnamese: SubtitleInterface[]
+    }>>
 }
 
 interface TopInterface {
@@ -13,11 +19,45 @@ interface TopInterface {
     index: number
 }
 
-const PracticeLayout = ({ currentBroadcast, setStartTest }: PracticeLayoutInterface) => {
-
+const PracticeLayout = ({ currentBroadcast, setTestPayload }: PracticeLayoutInterface) => {
+    const { datas, handles } = useContext(ThemeContext) || {}
     const reactPlayerRef = useRef<ReactPlayer>(null);
     const [playing, setPlaying] = useState<boolean>(false)
     const [top, setTop] = useState<TopInterface[]>([])
+    const [from_to, setFrom_to] = useState<{
+        from: number,
+        to: number
+    }>({
+        from: 0,
+        to: 0
+    })
+
+    const handleStartTest = () => {
+        const { from, to } = from_to
+        if (from < 1) {
+            handles?.handleSetNotification({ status: StatusToast.WARNING, message: 'The from value must be getter than 0' })
+            return
+        }
+        if (to > currentBroadcast.englishSubtitle.length) {
+            handles?.handleSetNotification({ status: StatusToast.WARNING, message: `The to value must be getter than ${currentBroadcast.englishSubtitle.length}` })
+            return
+        }
+        if (from >= to) {
+            handles?.handleSetNotification({ status: StatusToast.WARNING, message: 'To value must be getter than From value' })
+            return
+        }
+        const sessionsEnglish: SubtitleInterface[] = currentBroadcast.englishSubtitle.filter((item, index) => {
+            return index >= from - 1 && index <= to - 1
+        })
+        const sessionsVietnamese: SubtitleInterface[] = currentBroadcast.vietnameseSubtitle.filter((item, index) => {
+            return index >= from - 1 && index <= to - 1
+        })
+        setTestPayload({
+            startTest: true,
+            sessionsEnglish: sessionsEnglish,
+            sessionsVietnamese: sessionsVietnamese
+        })
+    }
 
     const handleOnProgress = () => {
         if (reactPlayerRef.current) {
@@ -93,10 +133,23 @@ const PracticeLayout = ({ currentBroadcast, setStartTest }: PracticeLayoutInterf
                     </div>
                     <h2 className='font-poppins text-[21px] mt-4 font-semibold'>{currentBroadcast.title}</h2>
                     <h3 className='font-poppins mt-1 text-[18px]'><b>From </b>{currentBroadcast.channelName}</h3>
-                    <div className='my-4 w-full flex justify-end'>
+                    <div className='my-4 w-full flex justify-end items-center gap-4'>
+                        <Input
+                            onChange={(e: any) => setFrom_to({ ...from_to, from: e.target.value })}
+                            className='w-[150px]'
+                            label='From: (>0)'
+                            crossOrigin="anonymous"
+                        />
+                        <Input
+                            onChange={(e: any) => setFrom_to({ ...from_to, to: e.target.value })}
+                            className='w-[150px]'
+                            label={`To: (<= ${currentBroadcast.englishSubtitle.length})`}
+                            crossOrigin="anonymous"
+                        />
                         <Button
-                            onClick={() => setStartTest(true)}
-                            className='text-[23px] font-poppins'
+                            disabled={from_to.from !== 0 && from_to.to !== 0 ? false : true}
+                            onClick={() => handleStartTest()}
+                            className='text-[15px] font-poppins w-[400px]'
                             placeholder="YourPlaceholderText"
                         >Start The Test</Button>
                     </div>
@@ -105,7 +158,7 @@ const PracticeLayout = ({ currentBroadcast, setStartTest }: PracticeLayoutInterf
                     <div className={`sub-wrapper transition-all h-full`}>
                         <span
                             className='text-[22px] font-poppins font-semibold'
-                        >Are you following your dreams? ⏲️ 6 Minute English</span>
+                        >{currentBroadcast.title}</span>
                         {currentBroadcast.englishSubtitle.map((item, index) => (
                             <p
                                 className={`min-h-[50px] my-6 justify-center flex flex-col transition-all sub sub-${index}`}

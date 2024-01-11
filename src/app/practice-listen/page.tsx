@@ -1,5 +1,5 @@
 'use client'
-import { BroadcastInterface } from '@/components/context/interfaces'
+import { BroadcastInterface, SubtitleInterface } from '@/components/context/interfaces'
 import Footer from '@/components/footer/Footer'
 import PrivateNavbar from '@/components/navbar/privateNavbar'
 import DefaultLayout from '@/components/practice-listen/default-layout'
@@ -11,7 +11,15 @@ import React, { useState } from 'react'
 const PracticeListen = () => {
 
     const [currentBroadcast, setCurrentBroadcast] = useState<BroadcastInterface | undefined>(undefined)
-    const [startTest, setStartTest] = useState<boolean>(false)
+    const [testPayload, setTestPayload] = useState<{
+        startTest: boolean,
+        sessionsEnglish: SubtitleInterface[]
+        sessionsVietnamese: SubtitleInterface[]
+    }>({
+        startTest: false,
+        sessionsEnglish: [],
+        sessionsVietnamese: []
+    })
 
     return (
         <>
@@ -19,10 +27,10 @@ const PracticeListen = () => {
             {!currentBroadcast ?
                 <DefaultLayout setCurrentBroadcast={setCurrentBroadcast} />
                 :
-                startTest === false ?
-                    <PracticeLayout currentBroadcast={currentBroadcast} setStartTest={setStartTest} />
+                testPayload.startTest === false ?
+                    <PracticeLayout currentBroadcast={currentBroadcast} setTestPayload={setTestPayload} />
                     :
-                    <TestLayout currentBroadcast={currentBroadcast} />
+                    <TestLayout setCurrentBroadcast={setCurrentBroadcast} currentBroadcast={currentBroadcast} testPayload={testPayload} setTestPayload={setTestPayload} />
             }
             <Footer />
         </>
