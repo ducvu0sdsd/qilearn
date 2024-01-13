@@ -28,7 +28,7 @@ const HomePage = () => {
                         <NodeList url='/practice-vocabulary' urlImage='/practice-vocabulary.png' />
                         <NodeList url='/practice-listen' urlImage='/practice-listen.png' />
                         <NodeList url='/practice-grammar' urlImage='/practice-grammar.png' />
-                        <NodeList url='' urlImage='/practice-speak.png' />
+                        <NodeList url='/practice-speak' urlImage='/practice-speak.png' />
                         <NodeList url='/words-management' urlImage='/words-management.png' />
                         <NodeList url='/grammars-management' urlImage='/grammar-management.png' />
                     </div>

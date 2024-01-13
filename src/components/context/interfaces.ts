@@ -77,3 +77,9 @@ export interface BroadcastInterface {
     thum: string
     duration: string
 }
+
+export interface ResultInterface {
+    english: string,
+    vietnamese: string,
+    result: string
+}

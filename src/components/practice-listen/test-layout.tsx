@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import ReactPlayer from 'react-player'
-import { BroadcastInterface, SubtitleInterface } from '../context/interfaces';
+import { BroadcastInterface, ResultInterface, SubtitleInterface } from '../context/interfaces';
 import { Input, Button } from '@material-tailwind/react';
 import { HandleCompareStrings, handleStringOnlyText } from '@/utils/broadcast/broadcast';
 import { ThemeContext } from '../context/themeContext';
@@ -20,12 +20,6 @@ interface TestLayoutInterface {
         sessionsVietnamese: SubtitleInterface[]
     }
     setCurrentBroadcast: React.Dispatch<React.SetStateAction<BroadcastInterface | undefined>>
-}
-
-interface ResultInterface {
-    english: string,
-    vietnamese: string,
-    result: string
 }
 
 const TestLayout = ({ setCurrentBroadcast, currentBroadcast, testPayload, setTestPayload }: TestLayoutInterface) => {
