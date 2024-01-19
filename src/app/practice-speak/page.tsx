@@ -6,6 +6,7 @@ import PrivateNavbar from '@/components/navbar/privateNavbar'
 import DefaultLayout from '@/components/practice-speak/default-layout'
 import OverviewLayout from '@/components/practice-speak/overview-layout'
 import PracticeLayout from '@/components/practice-speak/practice-layout'
+import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 
 const PracticeSpeak = () => {
@@ -26,7 +27,11 @@ const PracticeSpeak = () => {
     }, [testPayload])
 
     return (
-        <>
+        <motion.div
+            initial={{ x: 1920 * -1 }}
+            animate={{ x: 0 }}
+            exit={{ x: 1920 * -1, transition: { duration: 0.2 } }}
+        >
             <PrivateNavbar />
             {!currentBroadcast ?
                 <DefaultLayout setCurrentBroadcast={setCurrentBroadcast} />
@@ -37,7 +42,7 @@ const PracticeSpeak = () => {
                     <PracticeLayout setCurrentBroadcast={setCurrentBroadcast} currentBroadcast={currentBroadcast} testPayload={testPayload} setTestPayload={setTestPayload} />
             }
             <Footer />
-        </>
+        </motion.div>
     )
 }
 

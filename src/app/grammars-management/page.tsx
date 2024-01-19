@@ -3,6 +3,7 @@ import { ThemeContext } from '@/components/context/themeContext'
 import Footer from '@/components/footer/Footer'
 import FormSearchGrammar from '@/components/grammars-management/form-search-grammar'
 import PrivateNavbar from '@/components/navbar/privateNavbar'
+import { motion } from 'framer-motion'
 import React, { useContext } from 'react'
 
 const GrammarsManagement = () => {
@@ -10,7 +11,11 @@ const GrammarsManagement = () => {
     const { datas, handles } = useContext(ThemeContext) || {}
 
     return (
-        <>
+        <motion.div
+            initial={{ x: 1920 * -1 }}
+            animate={{ x: 0 }}
+            exit={{ x: 1920 * -1, transition: { duration: 0.2 } }}
+        >
             <PrivateNavbar />
             <section className='flex pb-[2rem] pt-[5rem] h-screen gap-6 px-[1rem]'>
                 <FormSearchGrammar />
@@ -51,7 +56,7 @@ const GrammarsManagement = () => {
                 </div>
             </section>
             <Footer />
-        </>
+        </motion.div>
     )
 }
 

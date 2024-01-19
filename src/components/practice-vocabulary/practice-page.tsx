@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ResultPracticeVocabularyInterface, WordInterface } from '../context/interfaces'
 import FormPractice from './form-practice'
+import { ThemeContext } from '../context/themeContext'
 
 export interface PracticePageProp {
     vocabulariesPractice: WordInterface[]
@@ -12,10 +13,42 @@ const PracticePage = ({ vocabulariesPractice, languages, setVocabulariesPractice
 
     const [results, setResults] = useState<ResultPracticeVocabularyInterface[]>([])
     const [current, setCurrent] = useState<number>(0)
+    const { datas, handles } = useContext(ThemeContext) || {}
 
     useEffect(() => {
-        if (results.length > 0 && results.length <= vocabulariesPractice.length) {
-            setCurrent(current + 1)
+        try {
+            if (results.length > 0 && results.length <= vocabulariesPractice.length) {
+                setCurrent(current + 1)
+                let voices = globalThis.window.speechSynthesis.getVoices();
+                if (typeof globalThis.window !== 'undefined' && globalThis.window.speechSynthesis) {
+                    const utterance = new SpeechSynthesisUtterance(languages === 'en->vi' ? vocabulariesPractice[current + 1].english : vocabulariesPractice[current + 1].vietnamese);
+                    utterance.rate = 1;
+                    utterance.pitch = 1;
+                    utterance.volume = 1;
+                    voices = globalThis.window.speechSynthesis.getVoices();
+                    const selectedVoice = voices.find(voice => voice.name === datas?.pronounces[0].voiceName);
+                    if (selectedVoice) {
+                        utterance.voice = selectedVoice;
+                    }
+                    globalThis.window.speechSynthesis.speak(utterance);
+                }
+            } else {
+                let voices = globalThis.window.speechSynthesis.getVoices();
+                if (typeof globalThis.window !== 'undefined' && globalThis.window.speechSynthesis) {
+                    const utterance = new SpeechSynthesisUtterance(languages === 'en->vi' ? vocabulariesPractice[0].english : vocabulariesPractice[0].vietnamese);
+                    utterance.rate = 1;
+                    utterance.pitch = 1;
+                    utterance.volume = 1;
+                    voices = globalThis.window.speechSynthesis.getVoices();
+                    const selectedVoice = voices.find(voice => voice.name === datas?.pronounces[0].voiceName);
+                    if (selectedVoice) {
+                        utterance.voice = selectedVoice;
+                    }
+                    globalThis.window.speechSynthesis.speak(utterance);
+                }
+            }
+        } catch (error) {
+
         }
     }, [results])
 

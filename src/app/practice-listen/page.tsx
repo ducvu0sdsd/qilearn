@@ -6,6 +6,7 @@ import DefaultLayout from '@/components/practice-listen/default-layout'
 import PracticeLayout from '@/components/practice-listen/practice-layout'
 import TestLayout from '@/components/practice-listen/test-layout'
 import { TypeHTTP, api } from '@/utils/api/api'
+import { motion } from 'framer-motion'
 import React, { useState } from 'react'
 
 const PracticeListen = () => {
@@ -22,7 +23,11 @@ const PracticeListen = () => {
     })
 
     return (
-        <>
+        <motion.div
+            initial={{ x: 1920 * -1 }}
+            animate={{ x: 0 }}
+            exit={{ x: 1920 * -1, transition: { duration: 0.2 } }}
+        >
             <PrivateNavbar />
             {!currentBroadcast ?
                 <DefaultLayout setCurrentBroadcast={setCurrentBroadcast} />
@@ -33,7 +38,7 @@ const PracticeListen = () => {
                     <TestLayout setCurrentBroadcast={setCurrentBroadcast} currentBroadcast={currentBroadcast} testPayload={testPayload} setTestPayload={setTestPayload} />
             }
             <Footer />
-        </>
+        </motion.div>
     )
 }
 

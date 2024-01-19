@@ -6,13 +6,18 @@ import Footer from '@/components/footer/Footer';
 import PrivateNavbar from '@/components/navbar/privateNavbar';
 import { getTypes, vocabularies } from '@/utils/translate/translate';
 import { useContext, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 const EnglishManagement = () => {
 
     const { datas, handles } = useContext(ThemeContext) || {}
 
     return (
-        <>
+        <motion.div
+            initial={{ x: 1920 * -1 }}
+            animate={{ x: 0 }}
+            exit={{ x: 1920 * -1, transition: { duration: 0.2 } }}
+        >
             <PrivateNavbar />
             <section className='flex pb-[2rem] pt-[5rem] h-screen gap-6 px-[1rem]'>
                 <FormSearchVocabulary />
@@ -59,7 +64,7 @@ const EnglishManagement = () => {
                 </div>
             </section>
             <Footer />
-        </>
+        </motion.div>
     );
 };
 
