@@ -1,5 +1,5 @@
 import { list } from "postcss";
-import { Dispatch, SetStateAction, createContext, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useEffect, useState } from "react";
 import { NoteInterface } from "../context/interfaces";
 import { TypeHTTP, api } from "@/utils/api/api";
 

@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import React, { useContext, useRef, useState } from 'react'
 import { ThemeContext } from '../context/themeContext'
 import { TypeHTTP, api } from '@/utils/api/api';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 
@@ -18,6 +18,7 @@ const PrivateNavbar = () => {
         handles?.setUser(undefined)
         signOut()
     }
+    const path = usePathname()
 
     const handleShowOrHideSubMenu = () => {
         if (subMenuRef.current) {
@@ -59,11 +60,13 @@ const PrivateNavbar = () => {
                 items-center hidden 
                 md:flex
                 '>
-                <Link href={'/home-page'}><li className='font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545] navbar-active'>Home</li></Link>
-                <li className='font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545]'>English</li>
-                <li className='font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545]'>To Do List</li>
-                <li className='font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545]'>Other</li>
-                <a href='#about'><li className='font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545]'>About</li></a>
+                <Link href={'/home-page'}><li className={`font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545] ${path === '/home-page' && 'navbar-active'}`}>Home</li></Link>
+                <Link href={'/practice-vocabulary'}><li className={`font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545] ${path === '/practice-vocabulary' && 'navbar-active'}`}>Vocabulary</li></Link>
+                <Link href={'/practice-grammar'}><li className={`font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545] ${path === '/practice-grammar' && 'navbar-active'}`}>Grammar</li></Link>
+                <Link href={'/practice-listen'}><li className={`font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545] ${path === '/practice-listen' && 'navbar-active'}`}>Listening</li></Link>
+                <Link href={'/practice-speak'}><li className={`font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545] ${path === '/practice-speak' && 'navbar-active'}`}>Speaking</li></Link>
+                <Link href={'/note-management'}><li className={`font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545] ${path === '/note-management' && 'navbar-active'}`}>Note</li></Link>
+                <li className={`font-semibold mx-3.5 cursor-pointer font-inter text-[14px] text-[#454545] ${path === '' && 'navbar-active'}`}>Time Study</li>
             </ul>
             <div className='flex items-center'>
                 <svg className="mx-1.5 w-6 h-6 hidden md:block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">

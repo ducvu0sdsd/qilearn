@@ -56,11 +56,13 @@ const NoteLayout = ({ typeText }: NoteLayoutInterface) => {
         if (event.key === 'Enter') {
             let note = listData?.currentNote
             if (note) {
-                note.title = inputTitle
-                listHandler?.setCurrentNote(note)
-                handleSave()
-                setFocus(false)
-                setFocusTitle(false)
+                if (inputTitle !== '') {
+                    note.title = inputTitle
+                    listHandler?.setCurrentNote(note)
+                    handleSave()
+                    setFocus(false)
+                    setFocusTitle(false)
+                }
             }
         }
     }
@@ -228,11 +230,13 @@ const NoteLayout = ({ typeText }: NoteLayoutInterface) => {
                         ${typeText === TypeText.H2 && 'text-[18px] font-semibold '}
                         ${typeText === TypeText.H3 && 'text-[16px] font-semibold '}
                     `}
-                            placeholder={listData?.currentNote?.title === '' ? 'Enter a title' : 'Enter FOcusdjasufhsdujf'} />}
+                            placeholder={'Enter a content'} />}
                 </div>)
                 :
-                (<div>
-
+                (<div className='flex flex-col items-center justify-center w-full'>
+                    <img className='w-[200px]' src='/note.png' />
+                    <h1 className='text-[26px] text-[#6b6b6b] mt-[1rem]'>Note Management</h1>
+                    <img className='w-[150px] mt-[1rem] translate-x-[-5px]' src='/logo.png' />
                 </div>)
             }
         </>

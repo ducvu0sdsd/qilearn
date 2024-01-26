@@ -29,12 +29,11 @@ const Categories = ({ setTypeText, typeText }: CategoriesInterface) => {
     return (
         <div className='h-screen overflow-y-auto overflow-x-hidden w-[17%] pt-[5rem] border-r-[1px] border-[#d8d8d8] pl-[1.5rem]'>
             <h2 className='font-poppins text-[19px]'>Elements</h2>
-            <div className='w-[100%] cursor-pointer flex items-center my-3 ml-[1rem] gap-2'>
+            {/* <div className='w-[100%] cursor-pointer flex items-center my-3 ml-[1rem] gap-2'>
                 <i className='bx bx-align-left text-[21px]'></i>
                 <i className='bx bx-align-middle text-[21px]' ></i>
                 <i className='bx bx-align-right text-[21px]' ></i>
-                <button onClick={() => listHandler?.handleUpdateNote()} >Save</button>
-            </div>
+            </div> */}
             <Category setTypeText={setTypeText} currentType={typeText} type={TypeText.H1} name='Heading 1' icon='bx bx-heading' />
             <Category setTypeText={setTypeText} currentType={typeText} type={TypeText.H2} name='Heading 2' icon='bx bx-heading' />
             <Category setTypeText={setTypeText} currentType={typeText} type={TypeText.H3} name='Heading 3' icon='bx bx-heading' />
