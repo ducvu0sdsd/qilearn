@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from 'react'
 import { ThemeContext } from '../context/themeContext';
 import ReactPlayer from 'react-player';
 import { BroadcastInterface, ResultInterface, SubtitleInterface } from '../context/interfaces';
-import { HandleCompareStrings, handleStringOnlyText } from '@/utils/broadcast/broadcast';
+import { HandleCompareStrings, handleCurrentScript, handleStringOnlyText } from '@/utils/broadcast/broadcast';
 import { getFinalMessage, messageCorrect, messageFail, shuffleArray } from '@/utils/vocabulary/vocabulary';
 import { StatusToast } from '../toast';
 import { Button } from '@material-tailwind/react';
@@ -35,7 +35,7 @@ const PracticeLayout = ({ setCurrentBroadcast, currentBroadcast, testPayload, se
     const [complete, setComplete] = useState<boolean>(false)
     const [percent, setPercent] = useState<{ true: number, false: number }>({ true: 0, false: 0 })
     const [isRecord, setIsRecord] = useState(false)
-
+    const [currentScript, setCurrentScript] = useState('')
 
     const handleStart = () => {
         if (reactPlayerRef.current) {
@@ -50,6 +50,7 @@ const PracticeLayout = ({ setCurrentBroadcast, currentBroadcast, testPayload, se
             if (currentTime >= testPayload.sessionsEnglish[currentSession].lastTime + 0.1) {
                 setPlaying(false)
                 buttonRef.current.disabled = false
+                setCurrentScript(testPayload.sessionsEnglish[currentSession].content)
                 if (testPayload.sessionsEnglish[currentSession + 1].firstTime - testPayload.sessionsEnglish[currentSession].lastTime < 0.5)
                     reactPlayerRef.current.seekTo(testPayload.sessionsEnglish[currentSession + 1].firstTime)
             }
@@ -71,6 +72,7 @@ const PracticeLayout = ({ setCurrentBroadcast, currentBroadcast, testPayload, se
                     handles?.handleSetNotification({ status: StatusToast.FAIL, message: shuffleArray(messageFail)[0] })
                     setPercent({ ...percent, false: percent.false + 1 })
                 }
+                setCurrentScript('')
                 setResults([result, ...results])
                 buttonRef.current.disabled = true
                 inputRef.current.value = ''
@@ -88,6 +90,10 @@ const PracticeLayout = ({ setCurrentBroadcast, currentBroadcast, testPayload, se
     return (
         <section className='mt-[5rem] px-[3rem] mb-[2rem] flex gap-8'>
             <div className='w-[60%] '>
+                <h1 className='mb-4 font-poppins text-[24px] font-bold'>Speak English</h1>
+                <div className='text-[20px] text-[#6dbaa8]'>
+                    {currentScript}
+                </div>
                 <MicroPhone inputRef={inputRef} isRecord={isRecord} setIsRecord={setIsRecord} />
                 <div className='my-3 flex justify-end'>
                     <Button

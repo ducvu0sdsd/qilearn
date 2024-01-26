@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import ReactPlayer from 'react-player'
 import { BroadcastInterface, ResultInterface, SubtitleInterface } from '../context/interfaces';
 import { Input, Button } from '@material-tailwind/react';
-import { HandleCompareStrings, handleStringOnlyText } from '@/utils/broadcast/broadcast';
+import { HandleCompareStrings, handleCurrentScript, handleStringOnlyText } from '@/utils/broadcast/broadcast';
 import { ThemeContext } from '../context/themeContext';
 import { StatusToast } from '../toast';
 import { getFinalMessage, messageCorrect, messageFail, shuffleArray } from '@/utils/vocabulary/vocabulary';
@@ -33,6 +33,7 @@ const TestLayout = ({ setCurrentBroadcast, currentBroadcast, testPayload, setTes
     const [results, setResults] = useState<ResultInterface[]>([])
     const [complete, setComplete] = useState<boolean>(false)
     const [percent, setPercent] = useState<{ true: number, false: number }>({ true: 0, false: 0 })
+    const [currentScript, setCurrentScript] = useState('')
 
     const handleStart = () => {
         if (reactPlayerRef.current) {
@@ -49,6 +50,7 @@ const TestLayout = ({ setCurrentBroadcast, currentBroadcast, testPayload, setTes
                 inputRef.current.disabled = false
                 buttonRef.current.disabled = false
                 inputRef.current.focus()
+                setCurrentScript(handleCurrentScript(testPayload.sessionsEnglish[currentSession].content))
                 if (testPayload.sessionsEnglish[currentSession + 1].firstTime - testPayload.sessionsEnglish[currentSession].lastTime < 0.5)
                     reactPlayerRef.current.seekTo(testPayload.sessionsEnglish[currentSession + 1].firstTime)
             }
@@ -62,7 +64,7 @@ const TestLayout = ({ setCurrentBroadcast, currentBroadcast, testPayload, setTes
                 const result: ResultInterface = {
                     english: testPayload.sessionsEnglish[currentSession].content,
                     vietnamese: testPayload.sessionsVietnamese[currentSession].content,
-                    result: inputRef.current.value
+                    result: currentScript.replace('_____', inputRef.current.value.toLowerCase().replaceAll(' ', ''))
                 }
                 if (handleStringOnlyText(result.english).toLowerCase().trim() === handleStringOnlyText(result.result).toLowerCase().trim()) {
                     handles?.handleSetNotification({ status: StatusToast.SUCCESS, message: shuffleArray(messageCorrect)[0] })
@@ -71,6 +73,7 @@ const TestLayout = ({ setCurrentBroadcast, currentBroadcast, testPayload, setTes
                     handles?.handleSetNotification({ status: StatusToast.FAIL, message: shuffleArray(messageFail)[0] })
                     setPercent({ ...percent, false: percent.false + 1 })
                 }
+                setCurrentScript('')
                 setResults([result, ...results])
                 inputRef.current.blur()
                 inputRef.current.disabled = true
@@ -94,23 +97,28 @@ const TestLayout = ({ setCurrentBroadcast, currentBroadcast, testPayload, setTes
 
     return (
         <section className='mt-[5rem] mb-[2rem] px-[2rem]'>
-            <h1 className='mb-4 font-poppins text-[24px] font-bold'>Test Overview</h1>
+            <h1 className='mb-4 font-poppins text-[24px] font-bold'>Listen and Write English</h1>
             <div className='flex gap-[2rem] w-full'>
                 <div className='w-[60%] h-[550px] border-r-[1px] border-[#cfcfcf] overflow-hidden pl-[2rem]'>
-                    <div className='flex items-center gap-3 justify-start pr-[2rem] py-[10px]'>
-                        <input
-                            disabled
-                            onKeyDown={(e: any) => handleKeyDown(e)}
-                            ref={inputRef}
-                            className='focus:border-[2px] transition-all border-[1px] text-[13px] px-[10px] w-full border-[#dedede] rounded-lg focus:outline-0 h-[40px] answer'
-                            placeholder='Your Answer' />
-                        <Button
-                            ref={buttonRef}
-                            disabled
-                            onClick={() => handleSubmit()}
-                            className='text-[13px] font-poppins w-[150px] h-[40px] flex items-center justify-center'
-                            placeholder="YourPlaceholderText"
-                        >Submit</Button>
+                    <div className='flex flex-col'>
+                        <div className='text-[20px] text-[#6dbaa8]'>
+                            {currentScript}
+                        </div>
+                        <div className='flex items-center gap-3 justify-start pr-[2rem] py-[10px]'>
+                            <input
+                                disabled
+                                onKeyDown={(e: any) => handleKeyDown(e)}
+                                ref={inputRef}
+                                className='focus:border-[2px] transition-all border-[1px] text-[13px] px-[10px] w-full border-[#dedede] rounded-lg focus:outline-0 h-[40px] answer'
+                                placeholder='Your Answer' />
+                            <Button
+                                ref={buttonRef}
+                                disabled
+                                onClick={() => handleSubmit()}
+                                className='text-[13px] font-poppins w-[150px] h-[40px] flex items-center justify-center'
+                                placeholder="YourPlaceholderText"
+                            >Submit</Button>
+                        </div>
                     </div>
                     <div className='w-full max-h-[400px] transition-all overflow-y-auto'>
                         <h2 className='mt-7 text-[#363636] font-poppins text-[22px] font-semibold'>Your Answer</h2>

@@ -1,11 +1,11 @@
 'use client'
 import { ThemeContext } from '@/components/context/themeContext'
 import Footer from '@/components/footer/Footer'
-import AnalyticalVocabulary from '@/components/homePage/analyticalVocabulary'
-import Grammar from '@/components/homePage/grammar'
-import NodeList from '@/components/homePage/nodeList'
-import StudyTime from '@/components/homePage/studyTime'
-import Todolist from '@/components/homePage/todolist'
+import AnalyticalVocabulary from '@/components/home-page/analyticalVocabulary'
+import Grammar from '@/components/home-page/grammar'
+import NodeList from '@/components/home-page/nodeList'
+import StudyTime from '@/components/home-page/studyTime'
+import Todolist from '@/components/home-page/todolist'
 import PrivateNavbar from '@/components/navbar/privateNavbar'
 import { motion } from 'framer-motion'
 import Cookies from 'js-cookie';
@@ -39,7 +39,7 @@ const HomePage = () => {
                     <h2
                         className='font-bold text-[27px] md:text-[1.5rem] font-poppins my-3 text-[#2c2c2c]'>Other</h2>
                     <div className='px-[1rem] grid-cols-1 md:grid-cols-4 md:px-[2rem] grid gap-x-5 gap-y-3 w-full'>
-                        <NodeList url='' urlImage='/note-management.png' />
+                        <NodeList url='/note-management' urlImage='/note-management.png' />
                         <NodeList url='' urlImage='/study-time-management.png' />
                         <NodeList url='' urlImage='/to-do-list.png' />
                     </div>

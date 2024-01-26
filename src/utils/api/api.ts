@@ -42,6 +42,15 @@ export const api = ({ path, body, type }: APIType) => {
                         resolve({ status: res.response?.status, message: res.response?.data.message })
                     })
                 break
+            case TypeHTTP.PUT:
+                axios.put(path, body, { headers: { accessToken, refreshToken } })
+                    .then(res => {
+                        rejects(res.data as any)
+                    })
+                    .catch(res => {
+                        resolve({ status: res.response?.status, message: res.response?.data.message })
+                    })
+                break
             case TypeHTTP.DELETE:
                 axios.delete(path, { headers: { accessToken, refreshToken } })
                     .then(res => {

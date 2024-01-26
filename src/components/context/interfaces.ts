@@ -8,6 +8,15 @@ export interface UserInterface {
     _id: string
 }
 
+export enum TypeText {
+    TEXT = 'text',
+    H1 = 'h1',
+    H2 = 'h2',
+    H3 = 'h3',
+    IMAGE = 'image',
+    TABLE = 'table'
+}
+
 export interface UserSignUp {
     username: string
     fullname: string
@@ -82,4 +91,28 @@ export interface ResultInterface {
     english: string,
     vietnamese: string,
     result: string
+}
+
+export interface FolderInterface {
+    name: string
+    user_id: any
+    _id?: any
+}
+
+export interface ContentInterface {
+    type: TypeText,
+    content: string
+    // | {
+    //     row: number,
+    //     column: number,
+    //     content: string[]
+    // }
+}
+
+export interface NoteInterface {
+    _id?: string
+    title: string
+    folder: string
+    content: ContentInterface[]
+    user_id: string
 }

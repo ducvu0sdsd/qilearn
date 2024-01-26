@@ -2,7 +2,7 @@
 import { createContext, use, useEffect, useState } from "react";
 import React from 'react'
 import Toast, { StatusToast, ToastInterface } from "../toast";
-import { BroadcastInterface, GrammarInterface, PronouncesInterface, UserInterface, WordInterface } from "./interfaces";
+import { BroadcastInterface, FolderInterface, GrammarInterface, NoteInterface, PronouncesInterface, UserInterface, WordInterface } from "./interfaces";
 import { usePathname, useRouter } from "next/navigation";
 import { TypeHTTP, api } from "@/utils/api/api";
 import { signOut, useSession } from "next-auth/react";
@@ -22,6 +22,8 @@ export interface ThemeData {
     vocabularies: WordInterface[]
     grammars: GrammarInterface[]
     broadCasts: BroadcastInterface[]
+    folders: FolderInterface[]
+    notes: NoteInterface[]
 }
 
 export interface ThemeHandles {
@@ -33,6 +35,8 @@ export interface ThemeHandles {
     setBroadCasts: React.Dispatch<React.SetStateAction<BroadcastInterface[]>>
     getTotalVocabularies: () => WordInterface[]
     getTotalQilearnVocabularies: () => WordInterface[]
+    setFolders: React.Dispatch<React.SetStateAction<FolderInterface[]>>
+    setNotes: React.Dispatch<React.SetStateAction<NoteInterface[]>>
 }
 
 export interface ThemeContextProviderProps {
@@ -47,6 +51,8 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
     const [vocabularies, setVocabularies] = useState<WordInterface[]>([])
     const [grammars, setGrammars] = useState<GrammarInterface[]>([])
     const [broadCasts, setBroadCasts] = useState<BroadcastInterface[]>([])
+    const [folders, setFolders] = useState<FolderInterface[]>([])
+    const [notes, setNotes] = useState<NoteInterface[]>([])
 
     const handleSetNotification = ({ status, message }: { status: StatusToast, message: string }) => {
         setToast({ status, message })
@@ -95,6 +101,33 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
             setBroadCasts((broadCastsResult.data as BroadcastInterface[]))
         }
     }, [broadCastsResult.isLoading])
+
+
+    // Get All Folder
+    const fetcherFolder = (url: string) => api({ path: url, type: TypeHTTP.GET }).then(res => res)
+    const foldersResult = useSWR(`/folders/${user?._id}`, fetcherFolder, {
+        revalidateOnFocus: false,
+        revalidateIfStale: false,
+        revalidateOnReconnect: false,
+    })
+    useEffect(() => {
+        if (foldersResult.data) {
+            setFolders((foldersResult.data as FolderInterface[]))
+        }
+    }, [foldersResult.isLoading])
+
+    // Get All Note
+    const fetcherNote = (url: string) => api({ path: url, type: TypeHTTP.GET }).then(res => res)
+    const notesResult = useSWR(`/notes/${user?._id}`, fetcherNote, {
+        revalidateOnFocus: false,
+        revalidateIfStale: false,
+        revalidateOnReconnect: false,
+    })
+    useEffect(() => {
+        if (notesResult.data) {
+            setNotes((notesResult.data as NoteInterface[]))
+        }
+    }, [notesResult.isLoading])
 
 
     const getTotalVocabularies = () => {
@@ -165,7 +198,7 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
     const pathname = usePathname()
     const { data: session, status, update } = useSession()
     useEffect(() => {
-        if (pathname !== '/' && pathname !== '/auth-page/sign-in' && pathname !== '/auth-page/sign-up') {
+        if (pathname !== '/' && pathname !== '/sign-in' && pathname !== '/sign-up') {
             api({ path: '/auth/check-token', type: TypeHTTP.GET })
                 .then(res => {
                     const result: any = res
@@ -219,7 +252,9 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
         pronounces,
         vocabularies,
         grammars,
-        broadCasts
+        broadCasts,
+        folders,
+        notes
     };
 
     const handles: ThemeHandles = {
@@ -230,7 +265,9 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
         getTotalVocabularies,
         getTotalQilearnVocabularies,
         setGrammars,
-        setBroadCasts
+        setBroadCasts,
+        setFolders,
+        setNotes
     };
 
     return (

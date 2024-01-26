@@ -2,7 +2,7 @@ export const handleStringOnlyText: (str: string) => string = (str: string) => {
     let result = ''
     for (let i = 0; i < str.length; i++) {
         const char = str.charAt(i);
-        if (char === ' ' || /[A-Za-z0-9]/.test(char))
+        if (char === ' ' || /[A-Za-z0-9']/.test(char))
             result += char
     }
     return result
@@ -24,4 +24,12 @@ export const HandleCompareStrings = (str1: string, str2: string) => {
             )
         }
     })
+}
+
+
+export const handleCurrentScript = (str: string) => {
+    const arr = handleStringOnlyText(str).trim().split(' ')
+    const randomNumber = Math.floor(Math.random() * (arr.length - 1)) + 0;
+    const result = str.replace(arr[randomNumber], '_____')
+    return result
 }
