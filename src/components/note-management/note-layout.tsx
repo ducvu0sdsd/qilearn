@@ -118,8 +118,10 @@ const NoteLayout = ({ typeText }: NoteLayoutInterface) => {
         body = { _id: listData?.currentNote?._id, title: listData?.currentNote?.title || '', user_id: listData?.currentNote?.user_id || '', folder: listData?.currentNote?.folder || '', content: content }
         api({ path: '/notes', type: TypeHTTP.PUT, body: body })
             .then(res => {
-                // const result = res as NoteInterface
-                // listHandler?.setCurrentNote(result)
+                if (typeText === TypeText.IMAGE) {
+                    const result = res as NoteInterface
+                    listHandler?.setCurrentNote(result)
+                }
             })
         setInputValue('')
     }
@@ -157,7 +159,7 @@ const NoteLayout = ({ typeText }: NoteLayoutInterface) => {
     return (
         <>
             {listData?.currentNote !== undefined ?
-                (<div className='flex-col text-[15px] w-[83%] flex items-start justify-start overflow-y-auto pt-[6rem] bg-[white] min-h-screen px-[4rem] pb-[4rem]'>
+                (<div className='flex-col text-[15px] w-[83%] flex items-start justify-start overflow-y-auto pt-[6rem] bg-[white] h-screen px-[4rem] pb-[4rem]'>
                     {(focusTitle) ?
                         (<input
                             onKeyDown={(e: any) => handleKeyDownForTitle(e)}
