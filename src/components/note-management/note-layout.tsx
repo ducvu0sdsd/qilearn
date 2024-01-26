@@ -118,8 +118,8 @@ const NoteLayout = ({ typeText }: NoteLayoutInterface) => {
         body = { _id: listData?.currentNote?._id, title: listData?.currentNote?.title || '', user_id: listData?.currentNote?.user_id || '', folder: listData?.currentNote?.folder || '', content: content }
         api({ path: '/notes', type: TypeHTTP.PUT, body: body })
             .then(res => {
-                const result = res as NoteInterface
-                listHandler?.setCurrentNote(result)
+                // const result = res as NoteInterface
+                // listHandler?.setCurrentNote(result)
             })
         setInputValue('')
     }
