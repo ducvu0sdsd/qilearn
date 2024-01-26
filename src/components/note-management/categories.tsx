@@ -39,7 +39,7 @@ const Categories = ({ setTypeText, typeText }: CategoriesInterface) => {
             <Category setTypeText={setTypeText} currentType={typeText} type={TypeText.H2} name='Heading 2' icon='bx bx-heading' />
             <Category setTypeText={setTypeText} currentType={typeText} type={TypeText.H3} name='Heading 3' icon='bx bx-heading' />
             <Category setTypeText={setTypeText} currentType={typeText} type={TypeText.TEXT} name='Text' icon='bx bx-text' />
-            <Category setTypeText={setTypeText} currentType={typeText} type={TypeText.TABLE} name='Table' icon='bx bx-table' />
+            {/* <Category setTypeText={setTypeText} currentType={typeText} type={TypeText.TABLE} name='Table' icon='bx bx-table' /> */}
             <Category setTypeText={setTypeText} currentType={typeText} type={TypeText.IMAGE} name='Image' icon='bx bx-image-alt' />
             <h2 className='font-poppins text-[19px] flex items-center mt-4'>Notes</h2>
             <div onClick={() => handles?.setShowForm(true)} className='text-[14px] text-[#6dbaa8] flex items-center my-1 cursor-pointer'>
