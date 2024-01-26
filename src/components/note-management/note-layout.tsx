@@ -195,7 +195,7 @@ const NoteLayout = ({ typeText }: NoteLayoutInterface) => {
                         } else {
                             if (item.type === TypeText.IMAGE) {
                                 return (
-                                    <div className='w-full relative'>
+                                    <div key={index} className='w-full relative'>
                                         <i onClick={() => handleRemoveImage(item.content)} className='bx bx-x absolute top-[5px] cursor-pointer right-[5px] text-[35px] text-[white]'></i>
                                         <img width={'100%'} src={item.content} />
                                     </div>
