@@ -164,7 +164,7 @@ const OverviewLayout = ({ currentBroadcast, setTestPayload }: PracticeLayoutInte
                                 className={`min-h-[50px] my-6 justify-center flex flex-col transition-all sub sub-${index}`}
                                 key={index}>
                                 <span className='font-poppins text-[19px] english'>{item.content}</span>
-                                <span className='vietnamese'>{currentBroadcast.vietnameseSubtitle[index].content}</span>
+                                <span className='vietnamese'>{currentBroadcast.vietnameseSubtitle[index]?.content}</span>
                             </p>
                         ))}
                     </div>
