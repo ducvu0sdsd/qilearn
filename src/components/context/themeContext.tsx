@@ -275,7 +275,9 @@ const ProviderContext: React.FC<ThemeContextProviderProps> = ({ children }) => {
             <ThemeProvider>
                 <div onClick={() => setShowForm(false)} className={`w-screen h-screen z-20 fixed top-0 left-0 bg-[#0000004b] ${datas?.showForm ? 'block' : 'hidden'}`} />
                 <Toast message={toast.message} status={toast.status} />
-                {children}
+                <>
+                    {children}
+                </>
             </ThemeProvider>
         </ThemeContext.Provider>
     )
